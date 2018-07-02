@@ -20,8 +20,8 @@ Thumbs.db
 
 # Android Studio
 *.iml
-.idea
-.gradle
+.idea/
+.gradle/
 build/
 
 !.idea/codeStyleSettings.xml
