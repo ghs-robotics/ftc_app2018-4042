@@ -1,4 +1,6 @@
-package org.firstinspires.ftc.teamcode.io;
+package org.firstinspires.ftc.teamcode.io.output;
+
+import org.firstinspires.ftc.teamcode.io.input.IOUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -17,7 +19,11 @@ public class LoggerThread implements Runnable {
     LoggerThread(ConcurrentLinkedQueue<LogMessage> q) {
         this.q = q;
         try {
-            printer = new PrintWriter(new FileWriter(new File(Log.LOG_ROOT, "log.txt")));
+            int i = 0;
+            while (new File("log" + i + ".txt").isFile()) {
+                i++;
+            }
+            printer = new PrintWriter(new FileWriter(new File(IOUtils.FILE_ROOT, "log" + i + ".txt")));
         } catch (IOException ex) {
             //TODO: exception handling
         }

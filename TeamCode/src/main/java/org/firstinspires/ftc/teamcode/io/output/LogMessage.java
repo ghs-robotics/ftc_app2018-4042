@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.io;
+package org.firstinspires.ftc.teamcode.io.output;
 
 public class LogMessage {
 
