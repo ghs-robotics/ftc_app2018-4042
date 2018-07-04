@@ -35,10 +35,9 @@ public class Log {
      */
     private static Log log() {
         if (self == null) {
-            return new Log();
-        } else {
-            return self;
+            self = new Log();
         }
+        return self;
     }
 
     /**
