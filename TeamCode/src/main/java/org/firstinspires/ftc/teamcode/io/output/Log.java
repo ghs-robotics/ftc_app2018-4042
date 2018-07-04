@@ -79,7 +79,8 @@ public class Log {
     }
 
     public static void error(String message, boolean stackTrace) {
-        if (stackTrace) { message += Arrays.toString(Thread.currentThread().getStackTrace()); }
+        if (stackTrace) { message += Arrays.toString(Thread.currentThread().getStackTrace()).
+                replace(", ", "\n"); }
         Log.log().logs.offer(new LogMessage(LogMessage.Priority.ERROR, message));
     }
 

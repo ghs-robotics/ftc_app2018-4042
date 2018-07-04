@@ -11,7 +11,7 @@ public class LogMessage {
     public LogMessage(Priority priority, String message) {
         this.priority = priority;
         this.message = message;
-        this.timeStamp = System.currentTimeMillis();
+        this.timeStamp = System.currentTimeMillis() / (long) 1000;
     }
 
     @Override

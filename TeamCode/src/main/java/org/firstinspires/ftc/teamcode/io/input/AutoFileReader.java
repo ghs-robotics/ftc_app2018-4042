@@ -37,7 +37,7 @@ public class AutoFileReader {
      * call get() then setFile(file)
      * @return The instance of AutoFileReader
      */
-    private static AutoFileReader get() {
+    public static AutoFileReader get() {
         if (self == null) {
             self = new AutoFileReader();
         }
