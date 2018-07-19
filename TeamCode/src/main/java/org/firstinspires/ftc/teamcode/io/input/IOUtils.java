@@ -9,8 +9,8 @@ import java.io.StringWriter;
  */
 public class IOUtils {
 
-    //public static final File FILE_ROOT = new File ("./storage/emulated/0/bluetooth/");
-    public static final File FILE_ROOT = new File ("C:\\Users\\Hazel\\Robotics\\io");
+    public static final File FILE_ROOT = new File ("./storage/emulated/0/bluetooth/");
+    //public static final File FILE_ROOT = new File ("C:\\Users\\Hazel\\Robotics\\io");
 
     /**
      * Gets the stack trace of an exception as a string

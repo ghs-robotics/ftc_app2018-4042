@@ -24,6 +24,11 @@ public class AutoFileReader {
         try {
             this.file = new File(IOUtils.FILE_ROOT, file);
             reader = new BufferedReader(new FileReader(this.file));
+            /* try {
+                if (reader.readLine() == null) {
+                    throw new Exception("aaaaaaaaaaaaa");
+                }
+            } catch (IOException ex) {  } */
         } catch (FileNotFoundException ex) {
             Log.error("Could not find specified auto file: " + this.file);
         }
@@ -60,6 +65,7 @@ public class AutoFileReader {
         try {
             currLine = reader.readLine();
             return currLine;
+            //return "";
         } catch (IOException ex) {
             Log.error("Couldn't read next line of file " + this.file);
         }
