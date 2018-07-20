@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.io.output;
 
+/**
+ * Represents a single message in the log.
+ * Contains a timestamp, a priority, and the message to log.
+ */
 public class LogMessage {
 
     public enum Priority {DEBUG, INFO, WARN, ERROR, FATAL}

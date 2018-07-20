@@ -8,6 +8,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+/**
+ * Actually handles the logging to a file.
+ * Regularly pings a ConcurrentLinkedQueue and prints the log messages in it to a file.
+ *
+ * This is in a separate thread so it doesn't slow down the rest of the code.
+ */
 public class LoggerThread implements Runnable {
 
     private ConcurrentLinkedQueue<LogMessage> q;

@@ -8,6 +8,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Reads from auto files line-by-line.
+ * Contains a method to get the last read line, and a method to get the next one.
+ *
+ * Singleton
+ */
 public class AutoFileReader {
 
     private static AutoFileReader self = null;
@@ -24,11 +30,6 @@ public class AutoFileReader {
         try {
             this.file = new File(IOUtils.FILE_ROOT, file);
             reader = new BufferedReader(new FileReader(this.file));
-            /* try {
-                if (reader.readLine() == null) {
-                    throw new Exception("aaaaaaaaaaaaa");
-                }
-            } catch (IOException ex) {  } */
         } catch (FileNotFoundException ex) {
             Log.error("Could not find specified auto file: " + this.file);
         }
