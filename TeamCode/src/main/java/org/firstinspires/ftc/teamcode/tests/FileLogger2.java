@@ -1,8 +1,11 @@
-package org.firstinspires.ftc.teamcode.io.input;
+package org.firstinspires.ftc.teamcode.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.io.input.AutoFileReader;
+import org.firstinspires.ftc.teamcode.io.input.GamepadAdv;
 
 @TeleOp(name = "Plausecause", group = "Iterative Opmode")
 public class FileLogger2 extends OpMode {

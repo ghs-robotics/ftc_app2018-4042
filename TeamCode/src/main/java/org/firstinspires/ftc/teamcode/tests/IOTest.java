@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.io;
+package org.firstinspires.ftc.teamcode.tests;
 
 import org.firstinspires.ftc.teamcode.io.input.AutoFileReader;
 import org.firstinspires.ftc.teamcode.io.output.LoggerThread;
