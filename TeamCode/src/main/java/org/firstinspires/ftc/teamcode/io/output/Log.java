@@ -15,13 +15,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class Log {
 
-    private static Log self = null;
+    public static Log self = null;
 
     // Stores things to be logged, uses a Concurrent queue
     // to avoid race conditions with multithreading
     private ConcurrentLinkedQueue<LogMessage> logs;
 
-    private Runnable loggerThread;
+    private static Runnable loggerThread;
 
     private Log() {
         logs = new ConcurrentLinkedQueue<>();

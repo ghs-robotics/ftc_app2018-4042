@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Logger;
 
 /**
  * Actually handles the logging to a file.
@@ -21,25 +22,26 @@ public class LoggerThread implements Runnable {
     private File file;
 
     //Volatile makes this parameter thread-safe
-    //public static volatile boolean RUN = true;
+    public static volatile boolean RUN;
 
     LoggerThread(ConcurrentLinkedQueue<LogMessage> q) {
-        Statics.telemetry().log().add("log", "logging");
+        LoggerThread.RUN = true;
+
         this.q = q;
         int i = 0;
         do {
             i++;
-        } while (new File("log" + i + ".txt").isFile());
+        } while (new File(IOUtils.FILE_ROOT,"log" + i + ".txt").isFile());
         file = new File(IOUtils.FILE_ROOT, "log" + i + ".txt");
         Statics.telemetry().log().add("file: " + file);
     }
 
     @Override
     public void run() {
-        while (true) {
+        while (RUN) {
             if (!q.isEmpty()) {
                 LogMessage message = q.poll();
-                Statics.telemetry().log().add(message.toString());
+                //Statics.telemetry().log().add(message.toString());
                 printMessage(message);
             }
         }

@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.control.InputControlManager;
 import org.firstinspires.ftc.teamcode.control.Statics;
+import org.firstinspires.ftc.teamcode.io.output.Log;
+import org.firstinspires.ftc.teamcode.io.output.LoggerThread;
 
 @TeleOp(name = "Sample Teleop", group = "tele")
 public class SampleTeleOp extends OpMode {
@@ -13,6 +15,7 @@ public class SampleTeleOp extends OpMode {
 
     @Override
     public void init() {
+        Log.self = null;
         Statics.set(telemetry, gamepad1, gamepad2);
         input = InputControlManager.get();
     }
@@ -23,5 +26,7 @@ public class SampleTeleOp extends OpMode {
     }
 
     @Override
-    public void stop() {  }
+    public void stop() {
+        LoggerThread.RUN = false;
+    }
 }
