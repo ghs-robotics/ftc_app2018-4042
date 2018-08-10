@@ -7,7 +7,7 @@ package org.firstinspires.ftc.teamcode.control;
  */
 public class AutoOperations extends Operations {
 
-    private static AutoOperations self;
+    public static AutoOperations self;
 
     private AutoOperations() {  }
 

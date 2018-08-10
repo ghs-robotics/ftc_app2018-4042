@@ -16,7 +16,7 @@ public class TeleOpInputManager {
 
     private Drive drive;
 
-    private static TeleOpInputManager self;
+    public static TeleOpInputManager self;
 
     private TeleOpInputManager() {
         teleOps = Operations.get();

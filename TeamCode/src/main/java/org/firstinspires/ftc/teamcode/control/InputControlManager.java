@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class InputControlManager {
 
-    private static InputControlManager self = null;
+    public static InputControlManager self = null;
 
     private AutoInputManager auto;
     private TeleOpInputManager teleop;
@@ -27,6 +27,7 @@ public class InputControlManager {
 
     private InputControlManager() {
         timer = new ElapsedTime();
+        self = null;
         teleop = TeleOpInputManager.get();
     }
 
@@ -70,8 +71,7 @@ public class InputControlManager {
         else if ((!RUN_AUTO   && timer.seconds() < TELE_OP_PERIOD) ||
                   (RUN_AUTO   && timer.seconds() < (TELE_OP_PERIOD + TRANSITION_PERIOD + AUTO_PERIOD)
                               && timer.seconds() > AUTO_PERIOD + TRANSITION_PERIOD)) {
-
+            teleop.update();
         }
-        teleop.update();
     }
 }

@@ -16,7 +16,7 @@ public class Statics {
     private Gamepad gamepad2;
     private HardwareMap hardwareMap;
 
-    private static Statics self;
+    public static Statics self;
 
     private Statics() { }
 
