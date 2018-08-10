@@ -28,8 +28,10 @@ public class Operations {
         return self;
     }
 
+    // Sample year-specific code: //
     public void print() {
         Log.debug("a");
         Statics.telemetry().addData("a", "a");
     }
+    // Sample ends //
 }

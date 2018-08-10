@@ -46,9 +46,11 @@ public class TeleOpInputManager {
         gamepad1.update();
         gamepad2.update();
 
+        // Sample year-specific code: //
         if (gamepad1.a()) {
             teleOps.print();
         }
+        // Sample ends //
 
         Statics.telemetry().update();
     }
