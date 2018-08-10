@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.io.input.GamepadAdv;
 
 @TeleOp(name = "ButtonTest2", group = "Iterative Opmode")
+@Disabled
 public class ButtonTest2 extends OpMode {
     boolean Var = true;
 

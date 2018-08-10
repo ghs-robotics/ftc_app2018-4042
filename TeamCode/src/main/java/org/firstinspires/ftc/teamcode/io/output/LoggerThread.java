@@ -29,7 +29,6 @@ public class LoggerThread implements Runnable {
             do {
                 i++;
             } while (new File("log" + i + ".txt").isFile());
-            System.out.println("i: " + i);
             printer = new PrintWriter(new FileWriter(new File(IOUtils.FILE_ROOT, "log" + i + ".txt")));
         } catch (IOException ex) {
             //TODO: exception handling

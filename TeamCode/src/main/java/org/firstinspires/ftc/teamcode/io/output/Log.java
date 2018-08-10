@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.io.output;
 
+import org.firstinspires.ftc.teamcode.control.Statics;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -26,6 +28,10 @@ public class Log {
 
         loggerThread = new LoggerThread(logs);
         new Thread(loggerThread).start();
+    }
+
+    public static void stop() {
+        LoggerThread.RUN = false;
     }
 
     /**

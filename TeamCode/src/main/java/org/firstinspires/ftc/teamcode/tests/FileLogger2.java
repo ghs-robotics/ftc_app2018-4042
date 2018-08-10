@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.io.input.AutoFileReader;
 import org.firstinspires.ftc.teamcode.io.input.GamepadAdv;
 
 @TeleOp(name = "Plausecause", group = "Iterative Opmode")
+@Disabled
 public class FileLogger2 extends OpMode {
     AutoFileReader mama;
     GamepadAdv fafa;
