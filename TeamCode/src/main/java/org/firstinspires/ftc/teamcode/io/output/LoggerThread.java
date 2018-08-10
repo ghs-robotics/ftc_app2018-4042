@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.io.output;
 
+import org.firstinspires.ftc.teamcode.control.Statics;
 import org.firstinspires.ftc.teamcode.io.input.IOUtils;
 
 import java.io.File;
@@ -17,36 +18,38 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class LoggerThread implements Runnable {
 
     private ConcurrentLinkedQueue<LogMessage> q;
-    private PrintWriter printer;
+    private File file;
 
     //Volatile makes this parameter thread-safe
-    public static volatile boolean RUN = true;
+    //public static volatile boolean RUN = true;
 
     LoggerThread(ConcurrentLinkedQueue<LogMessage> q) {
+        Statics.telemetry().log().add("log", "logging");
         this.q = q;
-        try {
-            int i = 0;
-            do {
-                i++;
-            } while (new File("log" + i + ".txt").isFile());
-            printer = new PrintWriter(new FileWriter(new File(IOUtils.FILE_ROOT, "log" + i + ".txt")));
-        } catch (IOException ex) {
-            //TODO: exception handling
-        }
+        int i = 0;
+        do {
+            i++;
+        } while (new File("log" + i + ".txt").isFile());
+        file = new File(IOUtils.FILE_ROOT, "log" + i + ".txt");
+        Statics.telemetry().log().add("file: " + file);
     }
 
     @Override
     public void run() {
-        while (RUN) {
+        while (true) {
             if (!q.isEmpty()) {
                 LogMessage message = q.poll();
-                printer.print(message.toString());
+                Statics.telemetry().log().add(message.toString());
+                printMessage(message);
             }
         }
-        stop();
     }
 
-    private void stop() {
-        printer.close();
+    private void printMessage(LogMessage message) {
+        try {
+            PrintWriter printer = new PrintWriter(new FileWriter(file, true));
+            printer.println(message.toString());
+            printer.close();
+        } catch (IOException ex) {  }
     }
 }

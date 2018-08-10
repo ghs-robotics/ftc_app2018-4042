@@ -30,10 +30,6 @@ public class Log {
         new Thread(loggerThread).start();
     }
 
-    public static void stop() {
-        LoggerThread.RUN = false;
-    }
-
     /**
      * Singleton handling class
      * We need a log instance, since the log wraps the non-static thread

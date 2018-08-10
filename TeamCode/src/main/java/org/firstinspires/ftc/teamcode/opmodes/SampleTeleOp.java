@@ -5,14 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.control.InputControlManager;
 import org.firstinspires.ftc.teamcode.control.Statics;
-import org.firstinspires.ftc.teamcode.io.output.Log;
 
 @TeleOp(name = "Sample Teleop", group = "tele")
 public class SampleTeleOp extends OpMode {
 
     private InputControlManager input;
-
-    private int count = 0;
 
     @Override
     public void init() {
@@ -23,14 +20,8 @@ public class SampleTeleOp extends OpMode {
     @Override
     public void loop() {
         input.update();
-        count++;
-        if (count > 2000) {
-            Log.stop();
-        }
     }
 
     @Override
-    public void stop() {
-        Log.stop();
-    }
+    public void stop() {  }
 }

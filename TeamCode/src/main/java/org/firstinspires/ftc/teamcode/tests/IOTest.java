@@ -13,6 +13,6 @@ public class IOTest {
 
         try { Thread.sleep(5000); } catch (Exception ex) { ex.printStackTrace(); }
 
-        LoggerThread.RUN = false;
+        //LoggerThread.RUN = false;
     }
 }
