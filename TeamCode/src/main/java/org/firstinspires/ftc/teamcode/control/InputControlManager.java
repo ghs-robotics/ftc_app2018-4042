@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class InputControlManager {
 
-    private static InputControlManager self = null;
+    public static InputControlManager self = null;
 
     private AutoInputManager auto;
     private TeleOpInputManager teleop;

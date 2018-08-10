@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.io.output.Log;
  */
 public class Operations {
 
-    private static Operations self;
+    public static Operations self;
 
     Operations() {  }
 

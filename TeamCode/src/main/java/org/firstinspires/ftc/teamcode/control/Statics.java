@@ -14,7 +14,7 @@ public class Statics {
     private Gamepad gamepad1;
     private Gamepad gamepad2;
 
-    private static Statics self;
+    public static Statics self;
 
     private Statics() { }
 

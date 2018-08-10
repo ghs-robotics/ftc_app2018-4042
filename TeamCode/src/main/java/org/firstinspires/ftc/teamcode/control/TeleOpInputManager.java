@@ -14,7 +14,7 @@ public class TeleOpInputManager {
     private GamepadAdv gamepad1;
     private GamepadAdv gamepad2;
 
-    private static TeleOpInputManager self;
+    public static TeleOpInputManager self;
 
     private TeleOpInputManager() {
         teleOps = Operations.get();
