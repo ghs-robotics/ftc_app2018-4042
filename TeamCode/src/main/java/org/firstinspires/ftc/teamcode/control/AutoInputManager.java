@@ -12,7 +12,7 @@ public class AutoInputManager {
 
     private AutoOperations autoOps;
 
-    private static AutoInputManager self;
+    public static AutoInputManager self;
 
     private AutoInputManager(String autoFileName) {
         reader = AutoFileReader.get();
