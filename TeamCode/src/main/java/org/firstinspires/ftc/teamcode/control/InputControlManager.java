@@ -20,6 +20,11 @@ public class InputControlManager {
 
     private static boolean RUN_AUTO;
 
+    /**
+     * Set to false to turn off the timer
+     */
+    public static boolean TIMER;
+
     private ElapsedTime timer;
     private static final double AUTO_PERIOD = 30.0;
     private static final double TRANSITION_PERIOD = 8.0;
@@ -28,6 +33,7 @@ public class InputControlManager {
     private InputControlManager() {
         timer = new ElapsedTime();
         teleop = TeleOpInputManager.get();
+        TIMER = true;
     }
 
     /**
@@ -61,16 +67,32 @@ public class InputControlManager {
     }
 
     public void update() {
-        if (RUN_AUTO && timer.seconds() < AUTO_PERIOD) {
-            auto.update();
-        }
-        // Run teleop if:
-        // You're running teleop and not at the end of teleop OR
-        // You're running auto and not at the end of teleop and not in the auto period
-        else if ((!RUN_AUTO   && timer.seconds() < TELE_OP_PERIOD) ||
-                  (RUN_AUTO   && timer.seconds() < (TELE_OP_PERIOD + TRANSITION_PERIOD + AUTO_PERIOD)
-                              && timer.seconds() > AUTO_PERIOD + TRANSITION_PERIOD)) {
-            teleop.update();
+        // Allow turning off the timer
+        if (TIMER) {
+            if (RUN_AUTO && timer.seconds() < AUTO_PERIOD) {
+                Statics.telemetry().addData("op mode", "auto");
+                auto.update();
+            }
+            // Run teleop if:
+            // You're running teleop and not at the end of teleop OR
+            // You're running auto and not at the end of teleop and not in the auto period
+            else if ((!RUN_AUTO && timer.seconds() < TELE_OP_PERIOD) ||
+                    (RUN_AUTO && timer.seconds() < (TELE_OP_PERIOD + TRANSITION_PERIOD + AUTO_PERIOD)
+                            && timer.seconds() > AUTO_PERIOD + TRANSITION_PERIOD)) {
+                Statics.telemetry().addData("op mode", "teleop");
+                teleop.update();
+            } else {
+                Statics.telemetry().addData("op mode", "not running");
+            }
+        } else {
+            if (RUN_AUTO) {
+                Statics.telemetry().addData("op mode", "auto");
+                auto.update();
+            }
+            else {
+                Statics.telemetry().addData("op mode", "teleop");
+                teleop.update();
+            }
         }
     }
 }

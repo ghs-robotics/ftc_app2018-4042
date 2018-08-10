@@ -30,6 +30,7 @@ public class SampleTeleOp extends OpMode {
 
         Statics.set(telemetry, gamepad1, gamepad2);
         input = InputControlManager.get();
+        InputControlManager.TIMER = false;
     }
 
     @Override
