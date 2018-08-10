@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.control;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.io.output.Log;
+
 /**
  * Singleton
  *
@@ -23,5 +26,10 @@ public class Operations {
             self = new Operations();
         }
         return self;
+    }
+
+    public void print() {
+        Log.debug("a");
+        Statics.telemetry().addData("a", "a");
     }
 }

@@ -1,11 +1,18 @@
 package org.firstinspires.ftc.teamcode.control;
 
+import com.qualcomm.robotcore.hardware.Gamepad;
+
+import org.firstinspires.ftc.teamcode.io.input.GamepadAdv;
+
 /**
  * Parses joystick inputs and calls the appropriate function in Operations
  */
 public class TeleOpInputManager {
 
     private Operations teleOps;
+
+    private GamepadAdv gamepad1;
+    private GamepadAdv gamepad2;
 
     private static TeleOpInputManager self;
 
@@ -21,6 +28,8 @@ public class TeleOpInputManager {
     public static TeleOpInputManager get() {
         if (self == null) {
             self = new TeleOpInputManager();
+            self.gamepad1 = new GamepadAdv(Statics.gamepad1());
+            self.gamepad2 = new GamepadAdv(Statics.gamepad2());
         }
         return self;
     }
@@ -34,6 +43,13 @@ public class TeleOpInputManager {
      * based on the gampepad inputs
      */
     public void update() {
+        gamepad1.update();
+        gamepad2.update();
 
+        if (gamepad1.a()) {
+            teleOps.print();
+        }
+
+        Statics.telemetry().update();
     }
 }
