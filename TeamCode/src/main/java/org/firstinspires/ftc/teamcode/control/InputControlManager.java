@@ -70,7 +70,8 @@ public class InputControlManager {
         else if ((!RUN_AUTO   && timer.seconds() < TELE_OP_PERIOD) ||
                   (RUN_AUTO   && timer.seconds() < (TELE_OP_PERIOD + TRANSITION_PERIOD + AUTO_PERIOD)
                               && timer.seconds() > AUTO_PERIOD + TRANSITION_PERIOD)) {
-            teleop.update();
+
         }
+        teleop.update();
     }
 }

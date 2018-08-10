@@ -33,7 +33,7 @@ public class TeleOpInputManager {
             self.gamepad1 = new GamepadAdv(Statics.gamepad1());
             self.gamepad2 = new GamepadAdv(Statics.gamepad2());
         }
-        self.drive.DriveXYR(0, 0, 0);
+        self.drive = Drive.get();
         return self;
     }
 

@@ -16,7 +16,7 @@ public class SampleTeleOp extends OpMode {
     @Override
     public void init() {
         Log.self = null;
-        Statics.set(telemetry, gamepad1, gamepad2);
+        Statics.set(telemetry, gamepad1, gamepad2, hardwareMap);
         input = InputControlManager.get();
     }
 

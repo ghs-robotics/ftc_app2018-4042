@@ -16,7 +16,7 @@ public class SampleAuto extends OpMode {
     @Override
     public void init() {
         input = InputControlManager.get("example.txt");
-        Statics.set(telemetry, gamepad1, gamepad2);
+        Statics.set(telemetry, gamepad1, gamepad2, hardwareMap);
     }
 
     @Override
