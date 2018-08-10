@@ -25,7 +25,7 @@ public class InputControlManager {
     private static final double TRANSITION_PERIOD = 8.0;
     private static final double TELE_OP_PERIOD = 90.0;
 
-    private InputControlManager() {
+    private InputControlManager() throws javax.xml.transform.TransformerFactoryConfigurationError{
         timer = new ElapsedTime();
         teleop = TeleOpInputManager.get();
     }
