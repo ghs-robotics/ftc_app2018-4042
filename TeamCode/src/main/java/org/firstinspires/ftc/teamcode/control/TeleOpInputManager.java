@@ -14,6 +14,8 @@ public class TeleOpInputManager {
     private GamepadAdv gamepad1;
     private GamepadAdv gamepad2;
 
+    private Drive drive;
+
     private static TeleOpInputManager self;
 
     private TeleOpInputManager() {
@@ -31,6 +33,7 @@ public class TeleOpInputManager {
             self.gamepad1 = new GamepadAdv(Statics.gamepad1());
             self.gamepad2 = new GamepadAdv(Statics.gamepad2());
         }
+        self.drive.DriveXYR(0, 0, 0);
         return self;
     }
 
@@ -50,6 +53,8 @@ public class TeleOpInputManager {
         if (gamepad1.a()) {
             teleOps.print();
         }
+
+        self.drive.DriveXYR(gamepad1.left_stick_x(), gamepad1.left_stick_y(), gamepad1.right_stick_x());
         // Sample ends //
 
         Statics.telemetry().update();
