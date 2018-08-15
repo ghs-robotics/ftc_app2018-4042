@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.control;
 
-import com.qualcomm.robotcore.hardware.Gamepad;
-
 import org.firstinspires.ftc.teamcode.io.input.GamepadAdv;
 
 /**
@@ -11,10 +9,7 @@ public class TeleOpInputManager {
 
     private Operations teleOps;
 
-    private GamepadAdv gamepad1;
-    private GamepadAdv gamepad2;
-
-    private Drive drive;
+    private GamepadAdv gamepad1, gamepad2;
 
     public static TeleOpInputManager self;
 
@@ -33,7 +28,6 @@ public class TeleOpInputManager {
             self.gamepad1 = new GamepadAdv(Statics.gamepad1());
             self.gamepad2 = new GamepadAdv(Statics.gamepad2());
         }
-        self.drive = Drive.get();
         return self;
     }
 
@@ -49,13 +43,9 @@ public class TeleOpInputManager {
         gamepad1.update();
         gamepad2.update();
 
-        // Sample year-specific code: //
-        if (gamepad1.a()) {
-            teleOps.print();
-        }
-
-        self.drive.DriveXYR(gamepad1.left_stick_x(), gamepad1.left_stick_y(), gamepad1.right_stick_x());
-        // Sample ends //
+        // Year-specific code: //
+        teleOps.drive(gamepad1.left_stick_x(), gamepad1.left_stick_y(), gamepad1.right_stick_x());
+        // Code ends //
 
         Statics.telemetry().update();
     }

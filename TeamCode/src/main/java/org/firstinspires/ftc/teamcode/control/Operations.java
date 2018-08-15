@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.control;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.io.output.Log;
 
@@ -14,6 +16,8 @@ public class Operations {
 
     public static Operations self;
 
+    private DcMotor mLeft, mRight, mStrafe;
+
     Operations() {  }
 
     /**
@@ -25,13 +29,17 @@ public class Operations {
         if (self == null) {
             self = new Operations();
         }
+        self.mLeft = Statics.hardwareMap().dcMotor.get("motorLF");
+        self.mRight = Statics.hardwareMap().dcMotor.get("motorRF");
+        self.mStrafe = Statics.hardwareMap().dcMotor.get("motorStrafe");
         return self;
     }
 
     // Sample year-specific code: //
-    public void print() {
-        Log.debug("a");
-        Statics.telemetry().addData("a", "a");
+    public void drive(double x, double y, double r) {
+        self.mLeft.setPower(r - y);
+        self.mRight.setPower(y + r);
+        self.mStrafe.setPower(x);
     }
     // Sample ends //
 }
