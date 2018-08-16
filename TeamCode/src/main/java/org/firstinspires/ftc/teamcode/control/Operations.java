@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.control;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.io.output.Log;
 
@@ -27,11 +29,4 @@ public class Operations {
         }
         return self;
     }
-
-    // Sample year-specific code: //
-    public void print() {
-        Log.debug("a");
-        Statics.telemetry().addData("a", "a");
-    }
-    // Sample ends //
 }

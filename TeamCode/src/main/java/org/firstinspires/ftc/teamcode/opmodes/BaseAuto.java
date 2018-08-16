@@ -29,7 +29,7 @@ public class BaseAuto extends OpMode {
         AutoOperations.self = null;
         Statics.self = null;
 
-        Statics.set(telemetry, gamepad1, gamepad2);
+        Statics.set(telemetry, gamepad1, gamepad2, hardwareMap);
         input = InputControlManager.get("example.txt"); //Should be in implementing classes not here
     }
 
