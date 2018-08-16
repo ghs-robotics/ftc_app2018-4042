@@ -28,6 +28,7 @@ public class BaseTeleOp extends OpMode {
         Statics.self = null;
 
         Statics.set(telemetry, gamepad1, gamepad2, hardwareMap);
+
         input = InputControlManager.get();
     }
 
