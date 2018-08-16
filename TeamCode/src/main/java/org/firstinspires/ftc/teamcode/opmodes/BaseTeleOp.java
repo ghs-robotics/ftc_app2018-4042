@@ -12,8 +12,8 @@ import org.firstinspires.ftc.teamcode.control.TeleOpInputManager;
 import org.firstinspires.ftc.teamcode.io.output.Log;
 import org.firstinspires.ftc.teamcode.io.output.LoggerThread;
 
-@TeleOp(name = "Sample Teleop", group = "tele")
-public class SampleTeleOp extends OpMode {
+@TeleOp(name = "Simple Teleop", group = "tele")
+public class BaseTeleOp extends OpMode {
 
     private InputControlManager input;
 
@@ -29,7 +29,6 @@ public class SampleTeleOp extends OpMode {
 
         Statics.set(telemetry, gamepad1, gamepad2, hardwareMap);
         input = InputControlManager.get();
-        InputControlManager.USE_TIMER = false;
     }
 
     @Override
