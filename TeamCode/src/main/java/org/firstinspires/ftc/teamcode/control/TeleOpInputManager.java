@@ -43,10 +43,6 @@ public class TeleOpInputManager {
         gamepad1.update();
         gamepad2.update();
 
-        // Year-specific code: //
-        teleOps.drive(gamepad1.left_stick_x(), gamepad1.left_stick_y(), gamepad1.right_stick_x());
-        // Code ends //
-
         Statics.telemetry().update();
     }
 }

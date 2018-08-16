@@ -20,6 +20,9 @@ public class InputControlManager {
 
     private static boolean RUN_AUTO;
 
+    /**
+     * Set to false to turn off the timer
+     */
     public static boolean USE_TIMER;
 
     private ElapsedTime timer;
