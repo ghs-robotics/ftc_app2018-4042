@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.control.TeleOpInputManager;
 import org.firstinspires.ftc.teamcode.io.output.Log;
 import org.firstinspires.ftc.teamcode.io.output.LoggerThread;
 
-@TeleOp(name = "Sample Teleop", group = "tele")
+@TeleOp(name = "Simple Teleop", group = "tele")
 public class BaseTeleOp extends OpMode {
 
     private InputControlManager input;
@@ -26,11 +26,9 @@ public class BaseTeleOp extends OpMode {
         AutoInputManager.self = null;
         AutoOperations.self = null;
         Statics.self = null;
-        Log.self = null;
 
-        Statics.set(telemetry, gamepad1, gamepad2);
+        Statics.set(telemetry, gamepad1, gamepad2, hardwareMap);
         input = InputControlManager.get();
-        InputControlManager.TIMER = false;
     }
 
     @Override
