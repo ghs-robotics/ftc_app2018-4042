@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.io.output.Log;
 import org.firstinspires.ftc.teamcode.io.output.LoggerThread;
 
 @TeleOp(name = "Sample Teleop", group = "tele")
-public class SampleTeleOp extends OpMode {
+public class BaseTeleOp extends OpMode {
 
     private InputControlManager input;
 
