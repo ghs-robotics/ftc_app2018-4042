@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.control.TeleOpInputManager;
 import org.firstinspires.ftc.teamcode.io.output.Log;
 import org.firstinspires.ftc.teamcode.io.output.LoggerThread;
 
-@Autonomous(name = "Sample Auto", group = "auto")
+@Autonomous(name = "Simple Auto", group = "auto")
 @Disabled
 public class BaseAuto extends OpMode {
 
@@ -28,8 +28,7 @@ public class BaseAuto extends OpMode {
         AutoInputManager.self = null;
         AutoOperations.self = null;
         Statics.self = null;
-
-        Statics.set(telemetry, gamepad1, gamepad2);
+        Statics.set(telemetry, gamepad1, gamepad2, hardwareMap);
         input = InputControlManager.get("example.txt"); //Should be in implementing classes not here
     }
 

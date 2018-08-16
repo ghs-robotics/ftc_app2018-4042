@@ -23,17 +23,17 @@ public class InputControlManager {
     /**
      * Set to false to turn off the timer
      */
-    public static boolean TIMER;
+    public static boolean USE_TIMER;
 
     private ElapsedTime timer;
     private static final double AUTO_PERIOD = 30.0;
     private static final double TRANSITION_PERIOD = 8.0;
     private static final double TELE_OP_PERIOD = 90.0;
 
-    private InputControlManager() {
+    private InputControlManager() throws javax.xml.transform.TransformerFactoryConfigurationError{
         timer = new ElapsedTime();
         teleop = TeleOpInputManager.get();
-        TIMER = true;
+        USE_TIMER = true;
     }
 
     /**
@@ -68,7 +68,7 @@ public class InputControlManager {
 
     public void update() {
         // Allow turning off the timer
-        if (TIMER) {
+        if (USE_TIMER) {
             if (RUN_AUTO && timer.seconds() < AUTO_PERIOD) {
                 Statics.telemetry().addData("op mode", "auto");
                 auto.update();
