@@ -35,10 +35,16 @@ public class Operations {
     }
 
     // Sample year-specific code: //
-    public void drive(double x, double y, double r) {
+    public void drivexyr(double x, double y, double r) {
         self.mLeft.setPower(r - y);
         self.mRight.setPower(y + r);
         self.mStrafe.setPower(x);
+    }
+
+    public void drivelrs(double left, double right, double strafe) {
+        self.mLeft.setPower(left);
+        self.mRight.setPower(right);
+        self.mStrafe.setPower(strafe);
     }
     // Sample ends //
 }
