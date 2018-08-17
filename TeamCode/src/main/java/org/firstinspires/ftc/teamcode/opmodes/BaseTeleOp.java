@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.io.output.Log;
 import org.firstinspires.ftc.teamcode.io.output.LoggerThread;
 
 @TeleOp(name = "Simple Teleop", group = "tele")
+@Disabled
 public class BaseTeleOp extends OpMode {
 
     private InputControlManager input;

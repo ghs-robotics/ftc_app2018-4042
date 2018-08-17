@@ -13,6 +13,8 @@ public class TeleOpInputManager {
 
     public static TeleOpInputManager self;
 
+    public static boolean DRIVE_XYR;
+
     private TeleOpInputManager() {
         teleOps = Operations.get();
     }
@@ -27,6 +29,7 @@ public class TeleOpInputManager {
             self = new TeleOpInputManager();
             self.gamepad1 = new GamepadAdv(Statics.gamepad1());
             self.gamepad2 = new GamepadAdv(Statics.gamepad2());
+            DRIVE_XYR = false;
         }
         return self;
     }
@@ -44,7 +47,18 @@ public class TeleOpInputManager {
         gamepad2.update();
 
         // Year-specific code: //
-        teleOps.drive(gamepad1.left_stick_x(), gamepad1.left_stick_y(), gamepad1.right_stick_x());
+        if (DRIVE_XYR) {
+            teleOps.drivexyr(
+                    gamepad1.left_stick_x(),
+                    gamepad1.left_stick_y(),
+                    gamepad1.right_stick_x());
+        }
+        else {
+            teleOps.drivelrs(
+                    -gamepad1.left_stick_y(),
+                    gamepad1.right_stick_y(),
+                    (gamepad1.left_stick_x() + gamepad1.right_stick_x()) / 2);
+        }
         // Code ends //
 
         Statics.telemetry().update();
