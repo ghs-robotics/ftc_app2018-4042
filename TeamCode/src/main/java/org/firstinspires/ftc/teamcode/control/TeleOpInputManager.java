@@ -7,15 +7,11 @@ import org.firstinspires.ftc.teamcode.io.input.GamepadAdv;
  */
 public class TeleOpInputManager {
 
-    private Operations teleOps;
-
     private GamepadAdv gamepad1, gamepad2;
 
     public static TeleOpInputManager self;
 
-    private TeleOpInputManager() {
-        teleOps = Operations.get();
-    }
+    private TeleOpInputManager() {  }
 
     /**
      * Singleton functionality
@@ -36,7 +32,7 @@ public class TeleOpInputManager {
      *
      * Is called repeatedly every loop cycle during teleop
      *
-     * Reads from the gamepad and calls the correct functions in Operations
+     * Reads from the gamepad and calls the sets the correct variables in each subsystem
      * based on the gampepad inputs
      */
     public void update() {
