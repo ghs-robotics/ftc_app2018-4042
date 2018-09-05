@@ -1,24 +1,30 @@
 package org.firstinspires.ftc.teamcode.control;
 
-import org.firstinspires.ftc.teamcode.io.input.AutoFileReader;
+import org.firstinspires.ftc.teamcode.io.input.IOUtils;
+
+import java.io.File;
+
+import teascript.Tint;
+
+import static org.firstinspires.ftc.teamcode.control.InputControlManager.subsystemTints;
+import static teascript.Nice.*;
 
 /**
- * Parses auto files and calls the appropriate functions in AutoOperations
- * TODO: WRITE THIS CLASS
+ * Starts TeaScript running and calls an update function in the TeaScript file
  */
 public class AutoInputManager {
-
-    private AutoFileReader reader;
-
-    private AutoOperations autoOps;
 
     public static AutoInputManager self;
 
     private AutoInputManager(String autoFileName) {
-        reader = AutoFileReader.get();
-        reader.setFile(autoFileName);
+        //reader = AutoFileReader.get();
+        //reader.setFile(autoFileName);
 
-        autoOps = AutoOperations.get();
+        for (Tint subsystemTint : subsystemTints) {
+            addTint(subsystemTint);
+        }
+
+        init(new File(IOUtils.FILE_ROOT, autoFileName));
     }
 
     /**
@@ -35,17 +41,9 @@ public class AutoInputManager {
     }
 
     /**
-     * TODO: WRITE THIS FUNCTION
-     *
-     * Is called repeatedly every loop cycle during auto
-     *
-     * Reads from a file (possibly using AutoFileReader?) and calls
-     * the requisite functions in AutoOperations.
-     *
-     * This is the place where the file parsing actually happens, hence
-     * this is where TeaScript might be implemented.
+     * Calls an update function in the appropriate TeaScript file
      */
     public void update() {
-
+        executeAction("main()");
     }
 }

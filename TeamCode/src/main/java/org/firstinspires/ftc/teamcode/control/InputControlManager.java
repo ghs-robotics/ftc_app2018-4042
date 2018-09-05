@@ -2,6 +2,15 @@ package org.firstinspires.ftc.teamcode.control;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.control.teascript.ExampleSub;
+import org.firstinspires.ftc.teamcode.control.teascript.Subsystem;
+import org.firstinspires.ftc.teamcode.control.teascript.SubsystemTint;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import teascript.Tint;
+
 /**
  * Oversees both auto and teleop.
  * Manages transitions between the two of them, and calls the requisite update() functions
@@ -29,6 +38,9 @@ public class InputControlManager {
     private static final double AUTO_PERIOD = 30.0;
     private static final double TRANSITION_PERIOD = 8.0;
     private static final double TELE_OP_PERIOD = 90.0;
+
+    protected static final Subsystem[] subsystems = { new ExampleSub() };
+    protected static final Tint[] subsystemTints = { new SubsystemTint() };
 
     private InputControlManager() throws javax.xml.transform.TransformerFactoryConfigurationError{
         timer = new ElapsedTime();
@@ -72,6 +84,7 @@ public class InputControlManager {
             if (RUN_AUTO && timer.seconds() < AUTO_PERIOD) {
                 Statics.telemetry().addData("op mode", "auto");
                 auto.update();
+                updateSubs();
             }
             // Run teleop if:
             // You're running teleop and not at the end of teleop OR
@@ -81,6 +94,7 @@ public class InputControlManager {
                             && timer.seconds() > AUTO_PERIOD + TRANSITION_PERIOD)) {
                 Statics.telemetry().addData("op mode", "teleop");
                 teleop.update();
+                updateSubs();
             } else {
                 Statics.telemetry().addData("op mode", "not running");
             }
@@ -88,11 +102,22 @@ public class InputControlManager {
             if (RUN_AUTO) {
                 Statics.telemetry().addData("op mode", "auto");
                 auto.update();
+                updateSubs();
             }
             else {
                 Statics.telemetry().addData("op mode", "teleop");
                 teleop.update();
+                updateSubs();
             }
+        }
+    }
+
+    /**
+     * Updates each subsystem
+     */
+    private void updateSubs() {
+        for (Subsystem subsystem : subsystems) {
+            subsystem.update();
         }
     }
 }
