@@ -1,8 +1,5 @@
-package org.firstinspires.ftc.teamcode.io.output;
+package org.firstinspires.ftc.teamcode.core.io.output;
 
-import org.firstinspires.ftc.teamcode.control.Statics;
-
-import java.io.File;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 

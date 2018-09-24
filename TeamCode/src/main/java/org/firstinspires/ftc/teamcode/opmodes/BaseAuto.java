@@ -4,12 +4,19 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.control.AutoInputManager;
-import org.firstinspires.ftc.teamcode.control.InputControlManager;
-import org.firstinspires.ftc.teamcode.control.Statics;
-import org.firstinspires.ftc.teamcode.control.TeleOpInputManager;
-import org.firstinspires.ftc.teamcode.io.output.Log;
-import org.firstinspires.ftc.teamcode.io.output.LoggerThread;
+import org.firstinspires.ftc.teamcode.core.Registry;
+import org.firstinspires.ftc.teamcode.core.highlevel.InputControlManager;
+import org.firstinspires.ftc.teamcode.core.Statics;
+import org.firstinspires.ftc.teamcode.core.io.input.IOUtils;
+import org.firstinspires.ftc.teamcode.core.io.output.Log;
+import org.firstinspires.ftc.teamcode.core.io.output.LoggerThread;
+
+import java.io.File;
+
+import teascript.Nice;
+import teascript.Tint;
+
+import static teascript.Nice.addTint;
 
 @Autonomous(name = "Sample Auto", group = "auto")
 @Disabled
@@ -20,13 +27,17 @@ public class BaseAuto extends OpMode {
     @Override
     public void init() {
         InputControlManager.self = null;
-        TeleOpInputManager.self = null;
         Log.self = null;
-        AutoInputManager.self = null;
         Statics.self = null;
 
         Statics.set(telemetry, gamepad1, gamepad2, hardwareMap);
-        input = InputControlManager.get("example.txt"); //Should be in implementing classes not here
+        input = InputControlManager.get(true); //Should be in implementing classes not here
+
+        for (Tint subsystemTint : Registry.subsystemTints) {
+            addTint(subsystemTint);
+        }
+
+        Nice.init(new File(IOUtils.FILE_ROOT, "example.txt"));
     }
 
     @Override
