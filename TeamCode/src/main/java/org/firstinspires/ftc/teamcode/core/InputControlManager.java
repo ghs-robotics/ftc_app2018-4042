@@ -1,9 +1,6 @@
-package org.firstinspires.ftc.teamcode.core.highlevel;
+package org.firstinspires.ftc.teamcode.core;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.teamcode.core.Statics;
-import org.firstinspires.ftc.teamcode.core.Registry;
 
 import static teascript.Nice.executeAction;
 
