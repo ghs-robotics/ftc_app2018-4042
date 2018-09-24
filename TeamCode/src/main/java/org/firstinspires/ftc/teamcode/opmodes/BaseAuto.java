@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.core.Registry;
-import org.firstinspires.ftc.teamcode.core.highlevel.InputControlManager;
+import org.firstinspires.ftc.teamcode.core.InputControlManager;
 import org.firstinspires.ftc.teamcode.core.Statics;
 import org.firstinspires.ftc.teamcode.core.io.input.IOUtils;
 import org.firstinspires.ftc.teamcode.core.io.output.Log;

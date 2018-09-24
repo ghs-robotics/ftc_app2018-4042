@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.core.highlevel.InputControlManager;
+import org.firstinspires.ftc.teamcode.core.InputControlManager;
 import org.firstinspires.ftc.teamcode.core.Statics;
 import org.firstinspires.ftc.teamcode.core.io.output.Log;
 import org.firstinspires.ftc.teamcode.core.io.output.LoggerThread;
