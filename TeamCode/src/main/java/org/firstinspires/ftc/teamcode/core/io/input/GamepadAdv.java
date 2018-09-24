@@ -20,6 +20,7 @@ public class GamepadAdv {
     private boolean oldA, oldB, oldX, oldY, oldDpad_up, oldDpad_left, oldDpad_down, oldDpad_right,
         oldLeft_bumper, oldRight_bumper, oldLeft_stick_button, oldRight_stick_button,
         oldBack, oldStart, oldGuide;
+    private double left_stick_x, left_stick_y, right_stick_x, right_stick_y, left_trigger, right_trigger;
 
     //Initialized with the class
     // Used for fetching current state of button (but NOT button at last ping)
@@ -63,6 +64,13 @@ public class GamepadAdv {
         back = gamepad.back;
         start = gamepad.start;
         guide = gamepad.guide;
+
+        left_stick_x = gamepad.left_stick_x;
+        left_stick_y = gamepad.left_stick_y;
+        right_stick_x = gamepad.right_stick_x;
+        right_stick_y = gamepad.right_stick_y;
+        left_trigger = gamepad.left_trigger;
+        right_trigger = gamepad.right_trigger;
     }
 
     /*
@@ -145,10 +153,10 @@ public class GamepadAdv {
     /*
     These accessors work for analog readings
      */
-    public double left_stick_x() { return gamepad.left_stick_x; }
-    public double left_stick_y() { return gamepad.left_stick_y; }
-    public double right_stick_x() { return gamepad.right_stick_x; }
-    public double right_stick_y() { return gamepad.right_stick_y; }
-    public double left_trigger() { return gamepad.left_trigger; }
-    public double right_trigger() { return gamepad.right_trigger; }
+    public double left_stick_x() { return left_stick_x; }
+    public double left_stick_y() { return left_stick_y; }
+    public double right_stick_x() { return right_stick_x; }
+    public double right_stick_y() { return right_stick_y; }
+    public double left_trigger() { return left_trigger; }
+    public double right_trigger() { return right_trigger; }
 }
