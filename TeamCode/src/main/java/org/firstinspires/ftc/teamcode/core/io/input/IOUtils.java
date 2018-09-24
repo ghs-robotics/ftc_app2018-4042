@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.io.input;
+package org.firstinspires.ftc.teamcode.core.io.input;
 
 import java.io.File;
 import java.io.PrintWriter;

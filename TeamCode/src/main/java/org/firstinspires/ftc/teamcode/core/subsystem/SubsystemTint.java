@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.control.teascript;
+package org.firstinspires.ftc.teamcode.core.subsystem;
 
 import teascript.Tint;
 

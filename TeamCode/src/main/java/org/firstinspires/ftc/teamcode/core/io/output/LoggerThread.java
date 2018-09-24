@@ -1,14 +1,13 @@
-package org.firstinspires.ftc.teamcode.io.output;
+package org.firstinspires.ftc.teamcode.core.io.output;
 
-import org.firstinspires.ftc.teamcode.control.Statics;
-import org.firstinspires.ftc.teamcode.io.input.IOUtils;
+import org.firstinspires.ftc.teamcode.core.Statics;
+import org.firstinspires.ftc.teamcode.core.io.input.IOUtils;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.logging.Logger;
 
 /**
  * Actually handles the logging to a file.

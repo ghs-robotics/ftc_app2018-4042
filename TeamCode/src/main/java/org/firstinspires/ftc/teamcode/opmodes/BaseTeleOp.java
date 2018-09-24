@@ -3,12 +3,10 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.control.AutoInputManager;
-import org.firstinspires.ftc.teamcode.control.InputControlManager;
-import org.firstinspires.ftc.teamcode.control.Statics;
-import org.firstinspires.ftc.teamcode.control.TeleOpInputManager;
-import org.firstinspires.ftc.teamcode.io.output.Log;
-import org.firstinspires.ftc.teamcode.io.output.LoggerThread;
+import org.firstinspires.ftc.teamcode.core.highlevel.InputControlManager;
+import org.firstinspires.ftc.teamcode.core.Statics;
+import org.firstinspires.ftc.teamcode.core.io.output.Log;
+import org.firstinspires.ftc.teamcode.core.io.output.LoggerThread;
 
 @TeleOp(name = "Simple Teleop", group = "tele")
 public class BaseTeleOp extends OpMode {
@@ -18,9 +16,7 @@ public class BaseTeleOp extends OpMode {
     @Override
     public void init() {
         InputControlManager.self = null;
-        TeleOpInputManager.self = null;
         Log.self = null;
-        AutoInputManager.self = null;
         Statics.self = null;
 
         Statics.set(telemetry, gamepad1, gamepad2, hardwareMap);

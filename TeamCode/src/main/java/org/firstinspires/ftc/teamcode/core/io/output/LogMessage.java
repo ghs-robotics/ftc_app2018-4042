@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.io.output;
+package org.firstinspires.ftc.teamcode.core.io.output;
 
 /**
  * Represents a single message in the log.
