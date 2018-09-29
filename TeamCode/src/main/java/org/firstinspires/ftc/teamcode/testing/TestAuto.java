@@ -17,12 +17,11 @@ public class TestAuto extends OpModeExtended {
     }
 
     public class AICM extends OpModeExtended.AutoInputControlManager {
-        public void init() {
+        public void autoinit() {
             file = null;
-            super.init();
         }
-        public void update() {
-            super.update();
+        public void autoupdate() {
+
         }
     }
 }

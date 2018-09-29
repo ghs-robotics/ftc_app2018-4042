@@ -36,21 +36,29 @@ public abstract class OpModeExtended extends OpMode {
     public abstract class AutoInputControlManager implements InputControlManager {
         public File file;
 
-        public void init() {
+        public final void init() {
+            autoinit();
             // TODO: init Tea system
         }
-        public void update() {
+        public final void update() {
+            autoupdate();
             // TODO: update Tea system
         }
+
+        public abstract void autoinit();
+        public abstract void autoupdate();
     }
 
     public abstract class TeleInputControlManager implements InputControlManager {
-        public void init() {
-
+        public final void init() {
+            teleinit();
         }
 
-        public void update() {
-
+        public final void update() {
+            teleupdate();
         }
+
+        public abstract void teleinit();
+        public abstract void teleupdate();
     }
 }
