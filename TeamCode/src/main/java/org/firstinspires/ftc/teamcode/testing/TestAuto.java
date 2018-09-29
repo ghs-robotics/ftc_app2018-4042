@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.core.ClassHolder;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 
-@Autonomous(name = "TeaScript Test", group = "Tests")
+@Autonomous(name = "Test", group = "Tests")
 public class TestAuto extends OpModeExtended {
 
     public InputControlManager getInputControlManager() {
