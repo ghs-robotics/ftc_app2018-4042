@@ -7,6 +7,8 @@ import java.io.File;
 public abstract class OpModeExtended extends OpMode {
     public InputControlManager inputControlManager;
     public ClassHolder classHolder;
+    public GamepadExtended gamepadExtended1;
+    public GamepadExtended gamepadExtended2;
 
     public abstract InputControlManager getInputControlManager();
     public abstract ClassHolder getClassHolder();
@@ -14,6 +16,12 @@ public abstract class OpModeExtended extends OpMode {
     public final void init() {
         this.inputControlManager = getInputControlManager();
         this.classHolder = getClassHolder();
+
+        this.gamepadExtended1 = new GamepadExtended(gamepad1);
+        this.gamepadExtended2 = new GamepadExtended(gamepad2);
+        gamepadExtended1.update();
+        gamepadExtended2.update();
+
         Registry.reset();
         Registry.grabData(classHolder);
         Registry.initSensors();
@@ -22,6 +30,8 @@ public abstract class OpModeExtended extends OpMode {
     }
 
     public final void loop() {
+        gamepadExtended1.update();
+        gamepadExtended2.update();
         Registry.updateSensors();
         Registry.updateSubsystemData();
         inputControlManager.update();
