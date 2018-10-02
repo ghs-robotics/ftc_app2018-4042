@@ -24,7 +24,7 @@ public class FakeLoggingSubsystem extends Subsystem {
     }
 
     public void updateActuators() {
-        for (Map.Entry<String, String> entry : strings.entrySet()) {
+        for (Map.Entry<String, Object> entry : settings.entrySet()) {
             telemetry.clearAll();
             if (entry.getKey().startsWith("log: ")) {
                 telemetry.log().add(entry.getKey().substring(5)
