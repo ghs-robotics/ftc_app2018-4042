@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.core;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.teamcode.core.io.input.GamepadExtended;
+
 import java.io.File;
 
 public abstract class OpModeExtended extends OpMode {
