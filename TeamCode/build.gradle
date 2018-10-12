@@ -10,6 +10,3 @@
 // Custom definitions may go here
 // Include common definitions from above.
 apply from: '../build.common.gradle'
-dependencies {
-    implementation files('/home/alnis/Documents/programming/ftc_framework/libs/commons-lang3-3.8.1.jar')
-}

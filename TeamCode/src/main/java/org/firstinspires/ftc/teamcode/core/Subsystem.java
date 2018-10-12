@@ -22,9 +22,11 @@ public abstract class Subsystem {
         for (Field field : this.getClass().getDeclaredFields()) {
             String name = field.getName();
             Annotation[] annotations = field.getDeclaredAnnotations();
+            context.telemetry.log().add("annotations registered:");
             for (Annotation annotation : annotations) {
                 if (annotation instanceof Setting) {
                     settings.put(name, field);
+                    context.telemetry.log().add(annotation + "");
                 }
             }
         }

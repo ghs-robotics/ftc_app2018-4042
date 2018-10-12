@@ -1,12 +1,8 @@
 package org.firstinspires.ftc.teamcode.core;
 
-import android.util.Log;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import java.io.File;
-
-import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 
 public abstract class OpModeExtended extends OpMode {
     public InputControlManager inputControlManager;
@@ -32,7 +28,7 @@ public abstract class OpModeExtended extends OpMode {
             Registry.initSubsystems();
             inputControlManager.init();
         } catch (Exception e) {
-            Log.e("team-code-init-error", getStackTrace(e));
+            //Log.e("team-code-log-error", getStackTrace(e));
         }
     }
 
@@ -45,7 +41,7 @@ public abstract class OpModeExtended extends OpMode {
             inputControlManager.update();
             Registry.updateSubsystemActuators();
         } catch (Exception e) {
-            Log.e("team-code-main-error", getStackTrace(e));
+            //Log.e("team-code-log-error", getStackTrace(e));
         }
     }
 

@@ -9,8 +9,6 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
-
 public class LogRecorder {
     public static void writeLog() {
         try {
@@ -49,7 +47,7 @@ public class LogRecorder {
 
             Runtime.getRuntime().exec("logcat -c");
         } catch (Exception e) {
-            Log.e("team-code-log-error", getStackTrace(e));
+            //Log.e("team-code-log-error", getStackTrace(e));
         }
     }
 }
