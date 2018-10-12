@@ -11,5 +11,5 @@
 // Include common definitions from above.
 apply from: '../build.common.gradle'
 dependencies {
-    implementation files('/home/alnis/Documents/programming/ftc_framework/libs/commons-lang3-3.8.1.jar')
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
 }
