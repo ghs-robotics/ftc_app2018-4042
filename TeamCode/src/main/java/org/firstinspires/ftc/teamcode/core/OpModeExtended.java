@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.core;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.core.io.input.GamepadExtended;
-
 import java.io.File;
+
+import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 
 public abstract class OpModeExtended extends OpMode {
     public InputControlManager inputControlManager;
@@ -16,28 +18,39 @@ public abstract class OpModeExtended extends OpMode {
     public abstract ClassHolder getClassHolder();
 
     public final void init() {
-        this.inputControlManager = getInputControlManager();
-        this.classHolder = getClassHolder();
+        try {
+            this.inputControlManager = getInputControlManager();
+            this.classHolder = getClassHolder();
 
-        this.gamepadExtended1 = new GamepadExtended(gamepad1);
-        this.gamepadExtended2 = new GamepadExtended(gamepad2);
-        gamepadExtended1.update();
-        gamepadExtended2.update();
+            this.gamepadExtended1 = new GamepadExtended(gamepad1);
+            this.gamepadExtended2 = new GamepadExtended(gamepad2);
+            gamepadExtended1.update();
+            gamepadExtended2.update();
 
-        Registry.reset();
-        Registry.grabData(classHolder);
-        Registry.initSensors();
-        Registry.initSubsystems();
-        inputControlManager.init();
+            Registry.grabData(classHolder);
+            Registry.initSensors();
+            Registry.initSubsystems();
+            inputControlManager.init();
+        } catch (Exception e) {
+            Log.e("team-code-init-error", getStackTrace(e));
+        }
     }
 
     public final void loop() {
-        gamepadExtended1.update();
-        gamepadExtended2.update();
-        Registry.updateSensors();
-        Registry.updateSubsystemData();
-        inputControlManager.update();
-        Registry.updateSubsystemActuators();
+        try {
+            gamepadExtended1.update();
+            gamepadExtended2.update();
+            Registry.updateSensors();
+            Registry.updateSubsystemData();
+            inputControlManager.update();
+            Registry.updateSubsystemActuators();
+        } catch (Exception e) {
+            Log.e("team-code-main-error", getStackTrace(e));
+        }
+    }
+
+    public void stop() {
+        LogRecorder.writeLog();
     }
 
     public interface InputControlManager {

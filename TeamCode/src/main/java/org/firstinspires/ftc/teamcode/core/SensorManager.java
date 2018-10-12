@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.core;
 
 public class SensorManager {
-    public SensorInterface sensorInterface;
     public OpModeExtended context;
+    public SensorInterface sensorInterface;
 
     final int VALUE_HISTORY_SIZE = 10;
     final int SMOOTH_HISTORY_SIZE = 4;
@@ -16,9 +16,9 @@ public class SensorManager {
     double value;
     boolean smooth = false;
 
-    public SensorManager(SensorInterface sensorInterface, OpModeExtended context) {
-        this.sensorInterface = sensorInterface;
+    public SensorManager(OpModeExtended context, SensorInterface sensorInterface) {
         this.context = context;
+        this.sensorInterface = sensorInterface;
     }
 
     public void init() {
