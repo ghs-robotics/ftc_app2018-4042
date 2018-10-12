@@ -27,7 +27,7 @@ public class TestHolder extends ClassHolder {
 
         result.put("fakeTimeSensor",
                 new SensorManager(
-                new FakeTimerSensor(context.hardwareMap, ""), context));
+                context, new FakeTimerSensor(context.hardwareMap, "")));
 
         return result;
     }
