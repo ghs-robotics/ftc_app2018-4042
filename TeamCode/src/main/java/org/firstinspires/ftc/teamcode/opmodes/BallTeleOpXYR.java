@@ -22,7 +22,7 @@ public class BallTeleOpXYR extends OpModeExtended {
         public void teleinit() {  }
         public void teleupdate() {
             Subsystem subsystem = Registry.getSubsystemByName("driveSubsystem");
-            subsystem.setting("drive: xyr", "" + true);
+            subsystem.setting("xyr", true);
         }
     }
 }

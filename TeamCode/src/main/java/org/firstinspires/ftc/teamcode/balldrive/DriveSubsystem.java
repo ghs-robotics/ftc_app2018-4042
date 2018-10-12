@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode.balldrive;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.core.GamepadExtended;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
+import org.firstinspires.ftc.teamcode.core.Setting;
 import org.firstinspires.ftc.teamcode.core.Subsystem;
-import org.firstinspires.ftc.teamcode.core.io.input.GamepadExtended;
-
-import java.util.Map;
 
 public class DriveSubsystem extends Subsystem {
     private OpModeExtended context;
@@ -16,10 +15,11 @@ public class DriveSubsystem extends Subsystem {
 
     private double leftX, leftY, rightX, rightY;
 
-    //@Setting
+    @Setting
     public boolean xyr;
 
     public DriveSubsystem(OpModeExtended context) {
+        super(context);
         this.context = context;
         this.telemetry = context.telemetry;
         driveInterface = new DriveInterface(context);
