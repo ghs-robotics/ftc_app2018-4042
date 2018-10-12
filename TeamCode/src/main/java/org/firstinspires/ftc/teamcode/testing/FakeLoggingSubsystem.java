@@ -2,21 +2,22 @@ package org.firstinspires.ftc.teamcode.testing;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
+import org.firstinspires.ftc.teamcode.core.Setting;
 import org.firstinspires.ftc.teamcode.core.Subsystem;
 
 import java.util.Map;
 
 public class FakeLoggingSubsystem extends Subsystem {
-    OpModeExtended context;
     Telemetry telemetry;
+    @Setting
+    public Map<String, String> logMessages;
 
     public FakeLoggingSubsystem(OpModeExtended context) {
-        this.context = context;
-        this.telemetry = context.telemetry;
+        super(context);
     }
 
     public void init() {
-
+        this.telemetry = context.telemetry;
     }
 
     public void updateData() {
@@ -24,12 +25,9 @@ public class FakeLoggingSubsystem extends Subsystem {
     }
 
     public void updateActuators() {
-        for (Map.Entry<String, Object> entry : settings.entrySet()) {
+        for (Map.Entry<String, String> entry : logMessages.entrySet()) {
             telemetry.clearAll();
-            if (entry.getKey().startsWith("log: ")) {
-                telemetry.log().add(entry.getKey().substring(5)
-                        + ": " + entry.getValue());
-            }
+            telemetry.log().add("log: " + entry.getKey() + ": " + entry.getValue());
             telemetry.update();
         }
     }
