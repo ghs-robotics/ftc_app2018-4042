@@ -1,53 +1,54 @@
 package org.firstinspires.ftc.teamcode.balldrive;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.core.GamepadExtended;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 import org.firstinspires.ftc.teamcode.core.Setting;
 import org.firstinspires.ftc.teamcode.core.Subsystem;
 
 public class DriveSubsystem extends Subsystem {
     private OpModeExtended context;
-    private Telemetry telemetry;
-    private GamepadExtended gamepadA, gamepadB;
-
-    private DriveInterface driveInterface;
-
-    private double leftX, leftY, rightX, rightY;
 
     @Setting
-    public boolean xyr;
+    public double l;
+    @Setting
+    public double r;
+    @Setting
+    public double s;
+
+    private DcMotor motorL, motorR, motorS;
+
+    public enum Mode {MANUAL_XYR, MANUAL_LRS}
+
+    @Setting
+    public Mode mode;
 
     public DriveSubsystem(OpModeExtended context) {
         super(context);
         this.context = context;
-        this.telemetry = context.telemetry;
-        driveInterface = new DriveInterface(context);
     }
 
     public void init() {
-        this.gamepadA = context.gamepadExtended1;
-        this.gamepadB = context.gamepadExtended2;
+        l = 0;
+        r = 0;
+        s = 0;
 
-        leftX = 0;
-        leftY = 0;
-        rightX = 0;
-        rightY = 0;
+        motorL = context.hardwareMap.dcMotor.get("motorLF");
+        motorR = context.hardwareMap.dcMotor.get("motorRF");
+        motorS = context.hardwareMap.dcMotor.get("motorStrafe");
     }
 
     public void updateData() {
-        leftX = gamepadA.left_stick_x;
-        leftY = gamepadA.left_stick_y;
-        rightX = gamepadA.right_stick_x;
-        rightY = gamepadA.right_stick_y;
+
     }
 
     public void updateActuators() {
-        if (xyr) {
-            driveInterface.drive(rightX - leftY, rightX + leftY, leftX);
-        }
-        else {
-            driveInterface.drive(-leftY, rightY, (leftX + rightX)/2);
-        }
+        motorL.setPower(l);
+        motorR.setPower(r);
+        motorS.setPower(s);
+
+        context.telemetry.addData("l", l);
+        context.telemetry.addData("r", r);
+        context.telemetry.addData("s", s);
     }
 }

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.core.ClassHolder;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 import org.firstinspires.ftc.teamcode.core.Registry;
@@ -19,10 +20,23 @@ public class BallTeleOpLRS extends OpModeExtended {
     }
 
     public class TICM extends OpModeExtended.TeleInputControlManager {
-        public void teleinit() {  }
+        Subsystem drive;
+        public void teleinit() {
+            drive = Registry.getSubsystemByName("driveSubsystem");
+            drive.setting("mode", false);
+        }
         public void teleupdate() {
-            Subsystem subsystem = Registry.getSubsystemByName("driveSubsystem");
-            subsystem.setting("xyr", false);
+            switch ((DriveSubsystem.Mode) drive.getSetting("mode")) {
+                case MANUAL_LRS:
+                    drive.setting("l", -gamepadExtended1.left_stick_y);
+                    drive.setting("r", -gamepadExtended1.right_stick_y);
+                    drive.setting("s", (gamepadExtended1.left_stick_x + gamepadExtended1.right_stick_x) / 2);
+                    break;
+                case MANUAL_XYR:
+                    drive.setting("l", gamepadExtended1.right_stick_x - gamepadExtended1.left_stick_y);
+                    drive.setting("r", gamepadExtended1.right_stick_x + gamepadExtended1.right_stick_y);
+                    drive.setting("s", gamepadExtended1.left_stick_x);
+            }
         }
     }
 }

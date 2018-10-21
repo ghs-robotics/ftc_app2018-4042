@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 import org.firstinspires.ftc.teamcode.core.Registry;
 import org.firstinspires.ftc.teamcode.core.Subsystem;
 
-@TeleOp(name = "bla Teleop xyr", group = "tele")
+@TeleOp(name = "bla Teleop mode", group = "tele")
 public class BallTeleOpXYR extends OpModeExtended {
 
     public InputControlManager getInputControlManager() {
@@ -22,7 +22,7 @@ public class BallTeleOpXYR extends OpModeExtended {
         public void teleinit() {  }
         public void teleupdate() {
             Subsystem subsystem = Registry.getSubsystemByName("driveSubsystem");
-            subsystem.setting("xyr", true);
+            subsystem.setting("mode", true);
         }
     }
 }
