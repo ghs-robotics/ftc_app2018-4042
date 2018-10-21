@@ -18,6 +18,7 @@ public abstract class OpModeExtended extends OpMode {
     public abstract ClassHolder getClassHolder();
 
     public final void init() {
+        Log.i("team-code", "--------framework init start--------");
         try {
             this.inputControlManager = getInputControlManager();
             this.classHolder = getClassHolder();
@@ -34,6 +35,11 @@ public abstract class OpModeExtended extends OpMode {
         } catch (Exception e) {
             Log.e("team-code-log-error", getStackTrace(e));
         }
+        Log.i("team-code", "--------framework init end----------");
+    }
+
+    public final void start() {
+        Log.i("team-code", "--------main loop start--------");
     }
 
     public final void loop() {
