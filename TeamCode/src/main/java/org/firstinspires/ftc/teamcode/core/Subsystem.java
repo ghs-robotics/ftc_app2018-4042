@@ -19,14 +19,15 @@ public abstract class Subsystem {
 
 
     public void registerSettings() {
-        for (Field field : this.getClass().getDeclaredFields()) {
+        Class clazz = this.getClass();
+        context.telemetry.log().add("annotations registered for " + clazz.getName() + ":");
+        for (Field field : clazz.getDeclaredFields()) {
             String name = field.getName();
             Annotation[] annotations = field.getDeclaredAnnotations();
-            context.telemetry.log().add("annotations registered:");
             for (Annotation annotation : annotations) {
                 if (annotation instanceof Setting) {
                     settings.put(name, field);
-                    context.telemetry.log().add(annotation + "");
+                    context.telemetry.log().add(name);
                 }
             }
         }
