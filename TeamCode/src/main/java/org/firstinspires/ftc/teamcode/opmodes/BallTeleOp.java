@@ -4,15 +4,16 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.core.ClassHolder;
+import org.firstinspires.ftc.teamcode.core.GamepadExtended;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 import org.firstinspires.ftc.teamcode.core.Registry;
 import org.firstinspires.ftc.teamcode.core.Subsystem;
 
-@TeleOp(name = "bla Teleop lrs", group = "tele")
-public class BallTeleOpLRS extends OpModeExtended {
+@TeleOp(name = "bla Teleop", group = "tele")
+public class BallTeleOp extends OpModeExtended {
 
     public OpModeExtended.InputControlManager getInputControlManager() {
-        return new BallTeleOpLRS.TICM();
+        return new BallTeleOp.TICM();
     }
 
     public ClassHolder getClassHolder() {
@@ -23,9 +24,21 @@ public class BallTeleOpLRS extends OpModeExtended {
         Subsystem drive;
         public void teleinit() {
             drive = Registry.getSubsystemByName("driveSubsystem");
-            drive.setting("mode", false);
+            drive.setting("mode", DriveSubsystem.Mode.MANUAL_LRS);
         }
         public void teleupdate() {
+            if (gamepadExtended1.a == GamepadExtended.ButtonState.DOWNING) {
+                DriveSubsystem.Mode mode = (DriveSubsystem.Mode) drive.getSetting("mode");
+                switch (mode) {
+                    case MANUAL_XYR:
+                        drive.setting("mode", DriveSubsystem.Mode.MANUAL_LRS);
+                        break;
+                    case MANUAL_LRS:
+                        drive.setting("mode", DriveSubsystem.Mode.MANUAL_XYR);
+                        break;
+                }
+            }
+
             switch ((DriveSubsystem.Mode) drive.getSetting("mode")) {
                 case MANUAL_LRS:
                     drive.setting("l", -gamepadExtended1.left_stick_y);

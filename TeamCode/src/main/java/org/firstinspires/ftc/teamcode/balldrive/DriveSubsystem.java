@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.balldrive;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 import org.firstinspires.ftc.teamcode.core.Setting;
@@ -16,7 +16,7 @@ public class DriveSubsystem extends Subsystem {
     @Setting
     public double s;
 
-    private DcMotor motorL, motorR, motorS;
+    private DcMotorEx motorL, motorR, motorS;
 
     public enum Mode {MANUAL_XYR, MANUAL_LRS}
 
@@ -33,9 +33,9 @@ public class DriveSubsystem extends Subsystem {
         r = 0;
         s = 0;
 
-        motorL = context.hardwareMap.dcMotor.get("motorLF");
-        motorR = context.hardwareMap.dcMotor.get("motorRF");
-        motorS = context.hardwareMap.dcMotor.get("motorStrafe");
+        motorL = (DcMotorEx) context.hardwareMap.dcMotor.get("motorLF");
+        motorR = (DcMotorEx) context.hardwareMap.dcMotor.get("motorRF");
+        motorS = (DcMotorEx) context.hardwareMap.dcMotor.get("motorStrafe");
     }
 
     public void updateData() {

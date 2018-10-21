@@ -15,7 +15,7 @@ public class GamepadExtended {
     public float right_stick_x, right_stick_y;
     public float left_trigger, right_trigger;
 
-    enum ButtonState {
+    public enum ButtonState {
         UP, DOWN, UPPING, DOWNING
     }
 
