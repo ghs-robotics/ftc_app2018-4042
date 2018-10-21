@@ -11,5 +11,5 @@
 // Include common definitions from above.
 apply from: '../build.common.gradle'
 dependencies {
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
 }
