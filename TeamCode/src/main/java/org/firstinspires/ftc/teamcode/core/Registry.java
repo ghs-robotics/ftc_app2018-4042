@@ -2,12 +2,17 @@ package org.firstinspires.ftc.teamcode.core;
 
 import android.util.Log;
 
+import org.majora320.tealisp.evaluator.JavaInterface;
+
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Registry {
-    public static Map<String, SensorManager> sensors = new HashMap<>();
-    public static Map<String, Subsystem> subsystems = new HashMap<>();
+    private static Map<String, SensorManager> sensors = new HashMap<>();
+    private static Map<String, Subsystem> subsystems = new HashMap<>();
+    private static Set<JavaInterface> interfaces = new HashSet<>();
 
     public static void grabData(ClassHolder classHolder) {
         if (classHolder == null) {
@@ -16,8 +21,10 @@ public class Registry {
             subsystems = null;
             return;
         }
-        sensors = classHolder.getSensors();
-        subsystems = classHolder.getSubsystems();
+
+        sensors.putAll(classHolder.getSensors());
+        subsystems.putAll(classHolder.getSubsystems());
+        interfaces.addAll(classHolder.getInterfaces());
     }
 
     public static void addSensorManager(String name, SensorManager sensor) {
@@ -34,6 +41,14 @@ public class Registry {
         if (subsystems == null)
             Log.w("team-code", "subsystems null, but attempt made to add Subsystem");
         subsystems.put(name, subsystem);
+    }
+
+    public static void addInterface(JavaInterface iface) {
+        Log.d("team-code", "adding Interface "
+                + (iface == null ? " (null)": " (nonnull)"));
+        if (interfaces == null)
+            Log.w("team-code", "interfaces null, but attempt made to add Interface");
+        interfaces.add(iface);
     }
 
     public static SensorManager getSensorManagerByName(String name) {
@@ -56,6 +71,10 @@ public class Registry {
         if (result == null)
             Log.w("team-code", "get by name: could not find Subsystem named " + name);
         return result;
+    }
+
+    public static Set<JavaInterface> getInterfaces() {
+        return interfaces;
     }
 
     public static void initSensors() {
