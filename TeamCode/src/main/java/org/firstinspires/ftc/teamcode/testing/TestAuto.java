@@ -24,7 +24,7 @@ public class TestAuto extends OpModeExtended {
 
     public class AICM extends AutoInputControlManager {
         public void autoinit() {
-            file = null;
+            teaLispFile = null;
             Subsystem subsystem = Registry.getSubsystemByName("fakeLoggingSubsystem");
             subsystem.setting("logMessages", new HashMap<String, String>());
             int i = 0 / 0;

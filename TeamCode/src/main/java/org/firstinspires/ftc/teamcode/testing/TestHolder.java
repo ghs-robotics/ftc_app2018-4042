@@ -5,8 +5,12 @@ import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 import org.firstinspires.ftc.teamcode.core.SensorManager;
 import org.firstinspires.ftc.teamcode.core.Subsystem;
 
+import org.majora320.tealisp.evaluator.JavaInterface;
+
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class TestHolder extends ClassHolder {
 
@@ -32,5 +36,8 @@ public class TestHolder extends ClassHolder {
         return result;
     }
 
-    // TODO: Set<ThingThatAllowsCallingJavaFunctionsFromTeaSystem>
+    @Override
+    public Set<JavaInterface> getInterfaces() {
+        return new HashSet<>();
+    }
 }
