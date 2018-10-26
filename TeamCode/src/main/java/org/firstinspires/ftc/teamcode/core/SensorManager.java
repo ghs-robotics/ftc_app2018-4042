@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.core;
 
+import java.util.ArrayList;
+
 public class SensorManager {
     public SensorInterface sensorInterface;
     public OpModeExtended context;
@@ -138,16 +140,13 @@ public class SensorManager {
                                             double vy, double r, double dt, double errorPx, double errorPy,
                                             double errorVx, double errorVy){
         double[][] previousPrediction = new double[][]{
-                { px },
-                { py },
-                { vx },
-                { vy }
+                { px, py, vx, vy }
         };
         double[][] transtionState = new double[][]{
-                { 1, 0, dt, 0 },
-                { 0, 1, 0, dt },
-                { 0, 0, 1, 0  },
-                { 0, 0, 0, 1  }
+                { 1,  0, 0, 0 },
+                { 0,  1, 0, 0 },
+                { dt, 0, 1, 0 },
+                { 0, dt, 0, 1 }
         };
         double[][] stateScalar = new double[][]{
                 { 1, 0, 0, 0 },
@@ -171,30 +170,58 @@ public class SensorManager {
         return identityMatrix;
     }
 
-     public double[][] predictState(double[][] transitionState, double[][] previousPrediction){
-        double[][] statePrediction = multiplyMatrix(transitionState, previousPrediction);
-        return statePrediction;
+     public double[][] predictState(double[][] transitionState,
+                                    double[][] previousPrediction){
+        return multiplyMatrix(transitionState, previousPrediction);
      }
 
-    public double[][] predictError(double[][] predictedError, double[][] transitionState){
-        double[][] errorPrediction = multiplyMatrix(multiplyMatrix(transitionState, predictedError), transposeMatrix(transitionState));
-        return errorPrediction;
+    public double[][] predictError(double[][] previousError,
+                                   double[][] transitionState){
+        return multiplyMatrix(multiplyMatrix(transitionState, previousError),
+                transposeMatrix(transitionState));
     }
 
-    public double[][] updateGain(double[][] errorPrediction, double[][] stateScalar,
+    public double[][] updateGain(double[][] predictedError,
+                                 double[][] stateScalar,
                                  double[][] measurementCovariance){
-        double[][] stateGain = multiplyMatrix(multiplyMatrix(errorPrediction,transposeMatrix(stateScalar)),
-                invert2x2Matrix(addMatrix(multiplyMatrix(multiplyMatrix(stateScalar, errorPrediction),
+        return multiplyMatrix(multiplyMatrix(predictedError,transposeMatrix(stateScalar)),
+                invert2x2Matrix(addMatrix(multiplyMatrix(multiplyMatrix(stateScalar, predictedError),
                         transposeMatrix(stateScalar)), measurementCovariance)));
-        return stateGain;
     }
 
-    public double[][] updateError(double[][] identityMatrix, double[][] previousError,
-                                  double[][] stateScalar, double[][] stateGain){
-        double[][] updatedError = multiplyMatrix(subtractMatrix(identityMatrix, multiplyMatrix(stateGain, stateScalar)), previousError);
-        return updatedError;
+    public double[][] updateError(double[][] identityMatrix,
+                                  double[][] previousError,
+                                  double[][] stateScalar,
+                                  double[][] stateGain){
+        return multiplyMatrix(subtractMatrix(identityMatrix, multiplyMatrix(stateGain, stateScalar)),
+                previousError);
     }
 
-    // public double[][] updatePrediction()
-}
-//Pk←(I−GkC)Pk
+    public double[][] updatePrediction(double[][] previousPrediction, double[][] stateGain, double[][] measuredMatrix,
+                                       double[][] stateScalar){
+        return addMatrix(previousPrediction, multiplyMatrix(stateGain, subtractMatrix(measuredMatrix,
+                multiplyMatrix(stateScalar, previousPrediction))));
+    }
+
+    public ArrayList<double[][]> runKalmanFilter(ArrayList<double[][]> previousKalmanStateAndError,
+                                                 double[][] transitionState,
+                                                 double[][] stateScalar,
+                                                 double[][] measurementCovariance,
+                                                 double[][] identityMatrix,
+                                                 double[][] measuredMatrix){
+        double[][] previousPrediction = previousKalmanStateAndError.get(0);
+        double[][] previousError = previousKalmanStateAndError.get(1);
+        double[][] currentState = predictState(transitionState, previousPrediction);
+        double[][] currentError = predictError(previousError, transitionState);
+        double[][] currentGain = updateGain(currentError, stateScalar, measurementCovariance);
+        currentError = updateError(identityMatrix, currentError, stateScalar, currentGain);
+        currentState = updatePrediction(previousPrediction, currentGain, measuredMatrix, stateScalar);
+        ArrayList<double[][]> kalmanStateAndError = new ArrayList<>();
+        kalmanStateAndError.add(0, currentError);
+        kalmanStateAndError.add(1, currentState);
+        return kalmanStateAndError;
+    }
+
+
+    }
+
