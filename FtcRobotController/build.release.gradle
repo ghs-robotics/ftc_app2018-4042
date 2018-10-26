@@ -1,6 +1,7 @@
 dependencies {
     implementation(name: 'Analytics-release', ext: 'aar')
     implementation(name: 'WirelessP2p-release', ext: 'aar')
+    implementation project(':Tealisp')
 
     // In FtcRobotControllerActivity, we access OpenRC stuff behind checks
 
