@@ -1,39 +1,45 @@
 package org.firstinspires.ftc.teamcode.core;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Subsystem {
-    public Map<String, Integer> integers = new HashMap<>();
-    public Map<String, Double> doubles = new HashMap<>();
-    public Map<String, Boolean> booleans = new HashMap<>();
-    public Map<String, String> strings = new HashMap<>();
+    public OpModeExtended context;
+    public Map<String, Field> settings = new HashMap<>();
+
+    public Subsystem(OpModeExtended context) {
+        this.context = context;
+    }
 
     public abstract void init();
     public abstract void updateData();
     public abstract void updateActuators();
-    public void setting(String name, int value) {
-        integers.put(name, value);
+
+
+    public void registerSettings() {
+        for (Field field : this.getClass().getDeclaredFields()) {
+            String name = field.getName();
+            Annotation[] annotations = field.getDeclaredAnnotations();
+            for (Annotation annotation : annotations) {
+                if (annotation instanceof Setting) {
+                    settings.put(name, field);
+                }
+            }
+        }
     }
-    public void setting(String name, double value) {
-        doubles.put(name, value);
+
+    public void setting(String name, Object object) {
+        try {
+            settings.get(name).set(this, object);
+        } catch (IllegalAccessException e) {}
     }
-    public void setting(String name, boolean value) {
-        booleans.put(name, value);
-    }
-    public void setting(String name, String value) {
-        strings.put(name, value);
-    }
-    public int getIntegerSetting(String name) {
-        return integers.get(name);
-    }
-    public double getDoubleSetting(String name) {
-        return doubles.get(name);
-    }
-    public boolean getBooleanSetting(String name) {
-        return booleans.get(name);
-    }
-    public String getStringSetting(String name) {
-        return strings.get(name);
+    public Object getSetting(String name) {
+        try {
+            return settings.get(name).get(this);
+        } catch (IllegalAccessException e) {
+            return "oops";
+        }
     }
 }

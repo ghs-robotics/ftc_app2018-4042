@@ -8,6 +8,9 @@ import org.firstinspires.ftc.teamcode.core.Registry;
 import org.firstinspires.ftc.teamcode.core.SensorManager;
 import org.firstinspires.ftc.teamcode.core.Subsystem;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Autonomous(name = "Test", group = "Tests")
 public class TestAuto extends OpModeExtended {
 
@@ -19,14 +22,20 @@ public class TestAuto extends OpModeExtended {
         return new TestHolder(this);
     }
 
-    public class AICM extends OpModeExtended.AutoInputControlManager {
+    public class AICM extends AutoInputControlManager {
         public void autoinit() {
-            file = null;
+            teaLispFile = null;
+            Subsystem subsystem = Registry.getSubsystemByName("fakeLoggingSubsystem");
+            subsystem.setting("logMessages", new HashMap<String, String>());
+            int i = 0 / 0;
         }
         public void autoupdate() {
             Subsystem subsystem = Registry.getSubsystemByName("fakeLoggingSubsystem");
             SensorManager sensorManager = Registry.getSensorManagerByName("fakeTimeSensor");
-            subsystem.setting("log: test", "" + sensorManager.getCM());
+
+            Map<String, String> logMessages =
+                    (Map<String, String>) subsystem.getSetting("logMessages");
+            logMessages.put("test time", "" + sensorManager.getCM() );
         }
     }
 }
