@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.testing;
 
+import android.os.Environment;
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.core.ClassHolder;
@@ -8,6 +11,7 @@ import org.firstinspires.ftc.teamcode.core.Registry;
 import org.firstinspires.ftc.teamcode.core.SensorManager;
 import org.firstinspires.ftc.teamcode.core.Subsystem;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,18 +28,20 @@ public class TestAuto extends OpModeExtended {
 
     public class AICM extends AutoInputControlManager {
         public void autoinit() {
-            file = null;
+            teaLispFile = new File(Environment.getExternalStorageDirectory() + "/test.tl");
             Subsystem subsystem = Registry.getSubsystemByName("fakeLoggingSubsystem");
             subsystem.setting("logMessages", new HashMap<String, String>());
-            int i = 0 / 0;
         }
+
         public void autoupdate() {
             Subsystem subsystem = Registry.getSubsystemByName("fakeLoggingSubsystem");
             SensorManager sensorManager = Registry.getSensorManagerByName("fakeTimeSensor");
 
-            Map<String, String> logMessages =
-                    (Map<String, String>) subsystem.getSetting("logMessages");
-            logMessages.put("test time", "" + sensorManager.getCM() );
+            //Map<String, String> logMessages =
+            //        (Map<String, String>) subsystem.getSetting("logMessages");
+            //logMessages.put("test time", "" + sensorManager.getCM() );
+
+            Log.d("Tealisp", "Tealist global result: " + manager.getInterpreter().getGlobalResult());
         }
     }
 }
