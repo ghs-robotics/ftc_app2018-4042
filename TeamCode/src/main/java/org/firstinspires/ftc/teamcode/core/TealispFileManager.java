@@ -23,6 +23,7 @@ public class TealispFileManager extends FileObserver {
 
     public TealispFileManager(File file, boolean updateInflight, Set<JavaInterface> interfaces) {
         super(file.getPath());
+        this.file = file;
         this.interfaces = interfaces;
         loadFile();
 
