@@ -1,63 +1,118 @@
 package org.firstinspires.ftc.teamcode.core;
 
+import android.util.Log;
+
+import org.majora320.tealisp.evaluator.JavaInterface;
+
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Registry {
-    public static Map<String, SensorManager> sensors = new HashMap<>();
-    public static Map<String, Subsystem> subsystems = new HashMap<>();
-
-    public static void reset() {
-        sensors = new HashMap<>();
-        subsystems = new HashMap<>();
-    }
+    private static Map<String, SensorManager> sensors = new HashMap<>();
+    private static Map<String, Subsystem> subsystems = new HashMap<>();
+    private static Set<JavaInterface> interfaces = new HashSet<>();
 
     public static void grabData(ClassHolder classHolder) {
-        sensors = classHolder.getSensors();
-        subsystems = classHolder.getSubsystems();
+        if (classHolder == null) {
+            Log.i("team-code", "classHolder null: sensors and subsystems made null");
+            sensors = null;
+            subsystems = null;
+            return;
+        }
+
+        sensors.putAll(classHolder.getSensors());
+        subsystems.putAll(classHolder.getSubsystems());
+        interfaces.addAll(classHolder.getInterfaces());
     }
 
     public static void addSensorManager(String name, SensorManager sensor) {
+        Log.d("team-code", "adding SensorManager " + name
+                + (sensor == null ? " (null)" : " (nonnull)"));
+        if (sensors == null)
+            Log.w("team-code", "sensors null, but attempt made to add SensorManager");
         sensors.put(name, sensor);
     }
 
     public static void addSubsystem(String name, Subsystem subsystem) {
+        Log.d("team-code", "adding Subsystem " + name
+                + (subsystem == null ? " (null)": " (nonnull)"));
+        if (subsystems == null)
+            Log.w("team-code", "subsystems null, but attempt made to add Subsystem");
         subsystems.put(name, subsystem);
     }
 
+    public static void addInterface(JavaInterface iface) {
+        Log.d("team-code", "adding Interface "
+                + (iface == null ? " (null)": " (nonnull)"));
+        if (interfaces == null)
+            Log.w("team-code", "interfaces null, but attempt made to add Interface");
+        interfaces.add(iface);
+    }
+
     public static SensorManager getSensorManagerByName(String name) {
-        return sensors.get(name);
+        if (sensors == null) {
+            Log.w("team-code", "attempt to fetch SensorManager " + name
+                    + " but sensors is null");
+        }
+        SensorManager result =  sensors.get(name);
+        if (result == null)
+            Log.w("team-code", "get by name: could not find SensorManager named " + name);
+        return result;
     }
 
     public static Subsystem getSubsystemByName(String name) {
-        return subsystems.get(name);
+        if (subsystems == null) {
+            Log.w("team-code", "attempt to fetch Subsystem " + name
+                    + " but subsystems is null");
+        }
+        Subsystem result = subsystems.get(name);
+        if (result == null)
+            Log.w("team-code", "get by name: could not find Subsystem named " + name);
+        return result;
+    }
+
+    public static Set<JavaInterface> getInterfaces() {
+        return interfaces;
     }
 
     public static void initSensors() {
+        if (sensors == null)
+            return;
         for (SensorManager sensor : sensors.values()) {
             sensor.init();
         }
     }
 
     public static void updateSensors() {
+        if (sensors == null)
+            return;
         for (SensorManager sensor : sensors.values()) {
             sensor.update();
         }
     }
 
     public static void initSubsystems() {
+        if (subsystems == null)
+            return;
         for (Subsystem subsystem : subsystems.values()) {
+            subsystem.registerSettings();
             subsystem.init();
         }
     }
 
     public static void updateSubsystemData() {
+        if (subsystems == null)
+            return;
         for (Subsystem subsystem : subsystems.values()) {
             subsystem.updateData();
         }
     }
 
     public static void updateSubsystemActuators() {
+        if (subsystems == null)
+            return;
         for (Subsystem subsystem : subsystems.values()) {
             subsystem.updateActuators();
         }

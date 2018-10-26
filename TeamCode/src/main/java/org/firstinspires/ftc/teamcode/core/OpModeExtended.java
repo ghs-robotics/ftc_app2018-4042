@@ -1,8 +1,16 @@
 package org.firstinspires.ftc.teamcode.core;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.majora320.tealisp.evaluator.JavaInterface;
+import org.majora320.tealisp.evaluator.LispException;
+
 import java.io.File;
+import java.util.Set;
+
+import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 
 public abstract class OpModeExtended extends OpMode {
     public InputControlManager inputControlManager;
@@ -14,28 +22,39 @@ public abstract class OpModeExtended extends OpMode {
     public abstract ClassHolder getClassHolder();
 
     public final void init() {
-        this.inputControlManager = getInputControlManager();
-        this.classHolder = getClassHolder();
+        try {
+            this.inputControlManager = getInputControlManager();
+            this.classHolder = getClassHolder();
 
-        this.gamepadExtended1 = new GamepadExtended(gamepad1);
-        this.gamepadExtended2 = new GamepadExtended(gamepad2);
-        gamepadExtended1.update();
-        gamepadExtended2.update();
+            this.gamepadExtended1 = new GamepadExtended(gamepad1);
+            this.gamepadExtended2 = new GamepadExtended(gamepad2);
+            gamepadExtended1.update();
+            gamepadExtended2.update();
 
-        Registry.reset();
-        Registry.grabData(classHolder);
-        Registry.initSensors();
-        Registry.initSubsystems();
-        inputControlManager.init();
+            Registry.grabData(classHolder);
+            Registry.initSensors();
+            Registry.initSubsystems();
+            inputControlManager.init();
+        } catch (Exception e) {
+            Log.e("team-code-init-error", getStackTrace(e));
+        }
     }
 
     public final void loop() {
-        gamepadExtended1.update();
-        gamepadExtended2.update();
-        Registry.updateSensors();
-        Registry.updateSubsystemData();
-        inputControlManager.update();
-        Registry.updateSubsystemActuators();
+        try {
+            gamepadExtended1.update();
+            gamepadExtended2.update();
+            Registry.updateSensors();
+            Registry.updateSubsystemData();
+            inputControlManager.update();
+            Registry.updateSubsystemActuators();
+        } catch (Exception e) {
+            Log.e("team-code-main-error", getStackTrace(e));
+        }
+    }
+
+    public void stop() {
+        LogRecorder.writeLog();
     }
 
     public interface InputControlManager {
@@ -44,15 +63,28 @@ public abstract class OpModeExtended extends OpMode {
     }
 
     public abstract class AutoInputControlManager implements InputControlManager {
-        public File file;
+        protected File teaLispFile = null;
+        protected TealispFileManager manager;
 
         public final void init() {
             autoinit();
-            // TODO: init Tea system
+            manager = new TealispFileManager(teaLispFile, false, Registry.getInterfaces());
+
+            try {
+                manager.getInterpreter().getRuntime().callFunction("init");
+            } catch (LispException e) {
+                Log.e("team-code-log-error", "Exception in Tealisp init function.", e);
+                System.exit(1);
+            }
         }
         public final void update() {
             autoupdate();
-            // TODO: update Tea system
+            try {
+                manager.getInterpreter().getRuntime().callFunction("update");
+            } catch (LispException e) {
+                Log.e("team-code-log-error", "Exception in Tealisp update function.", e);
+                System.exit(1);
+            }
         }
 
         public abstract void autoinit();
