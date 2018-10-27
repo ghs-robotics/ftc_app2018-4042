@@ -73,8 +73,8 @@ public abstract class OpModeExtended extends OpMode {
         protected TealispFileManager manager;
 
         public final void init() {
-            autoinit();
             manager = new TealispFileManager(teaLispFile, false, Registry.getInterfaces());
+            autoinit();
 
             try {
                 manager.getInterpreter().getRuntime().callFunction("init");
