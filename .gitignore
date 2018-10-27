@@ -29,3 +29,6 @@ build/
 !/doc/apk/FtcDriverStation-release.apk
 /logs/
 vuforia.properties
+
+.floo
+.flooignore

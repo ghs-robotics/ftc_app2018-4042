@@ -31,10 +31,10 @@ public class BallTeleOp extends OpModeExtended {
                 DriveSubsystem.Mode mode = (DriveSubsystem.Mode) drive.getSetting("mode");
                 switch (mode) {
                     case MANUAL_XYR:
-                        drive.setting("mode", DriveSubsystem.Mode.MANUAL_LRS);
+                        drive.setting("mode", DriveSubsystem.Mode.MANUAL_XYR);
                         break;
                     case MANUAL_LRS:
-                        drive.setting("mode", DriveSubsystem.Mode.MANUAL_XYR);
+                        drive.setting("mode", DriveSubsystem.Mode.MANUAL_LRS);
                         break;
                 }
             }
