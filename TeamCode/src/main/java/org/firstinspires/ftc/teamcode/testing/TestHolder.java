@@ -37,7 +37,7 @@ public class TestHolder extends ClassHolder {
     }
 
     @Override
-    public Set<JavaInterface> getInterfaces() {
-        return new HashSet<>();
+    public Map<String, JavaInterface> getInterfaces() {
+        return new HashMap<>();
     }
 }
