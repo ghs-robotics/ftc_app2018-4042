@@ -5,9 +5,12 @@ import org.firstinspires.ftc.teamcode.core.ClassHolder;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 import org.firstinspires.ftc.teamcode.core.SensorManager;
 import org.firstinspires.ftc.teamcode.core.Subsystem;
+import org.majora320.tealisp.evaluator.JavaInterface;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Holder extends ClassHolder {
     public Holder(OpModeExtended context) {
@@ -24,6 +27,15 @@ public class Holder extends ClassHolder {
 
     public Map<String, SensorManager> getSensors() {
         Map<String, SensorManager> result = new HashMap<>();
+
+        return result;
+    }
+
+    @Override
+    public Map<String, JavaInterface> getInterfaces() {
+        Map<String, JavaInterface> result = new HashMap<>();
+
+        result.put("main", new MainInterface());
 
         return result;
     }
