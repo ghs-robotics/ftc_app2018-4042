@@ -12,7 +12,7 @@ import java.util.Set;
 public class Registry {
     private static Map<String, SensorManager> sensors = new HashMap<>();
     private static Map<String, Subsystem> subsystems = new HashMap<>();
-    private static Set<JavaInterface> interfaces = new HashSet<>();
+    private static Map<String, JavaInterface> interfaces = new HashMap<>();
 
     public static void grabData(ClassHolder classHolder) {
         if (classHolder == null) {
@@ -24,7 +24,7 @@ public class Registry {
 
         sensors.putAll(classHolder.getSensors());
         subsystems.putAll(classHolder.getSubsystems());
-        interfaces.addAll(classHolder.getInterfaces());
+        interfaces.putAll(classHolder.getInterfaces());
     }
 
     public static void addSensorManager(String name, SensorManager sensor) {
@@ -43,12 +43,12 @@ public class Registry {
         subsystems.put(name, subsystem);
     }
 
-    public static void addInterface(JavaInterface iface) {
+    public static void addInterface(String name, JavaInterface iface) {
         Log.d("team-code", "adding Interface "
                 + (iface == null ? " (null)": " (nonnull)"));
         if (interfaces == null)
             Log.w("team-code", "interfaces null, but attempt made to add Interface");
-        interfaces.add(iface);
+        interfaces.put(name, iface);
     }
 
     public static SensorManager getSensorManagerByName(String name) {
@@ -73,8 +73,22 @@ public class Registry {
         return result;
     }
 
+    public static JavaInterface getInterfaceByName(String name) {
+        if (interfaces == null) {
+            Log.w("team-code", "attempt to fetch JavaInterface" + name
+                    + "but interfaces is null");
+        }
+        JavaInterface result = interfaces.get(name);
+        if (result == null)
+            Log.w("team-code", "get by name: could not find JavaInterface named " + name);
+        return result;
+    }
+
     public static Set<JavaInterface> getInterfaces() {
-        return interfaces;
+        if (interfaces == null) {
+            Log.w("team-code", "attempt to fetch interfaces, but it is null");
+        }
+        return new HashSet<>(interfaces.values());
     }
 
     public static void initSensors() {

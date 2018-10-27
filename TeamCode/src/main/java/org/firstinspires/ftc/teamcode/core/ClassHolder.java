@@ -14,5 +14,5 @@ public abstract class ClassHolder {
 
     public abstract Map<String, Subsystem> getSubsystems();
     public abstract Map<String, SensorManager> getSensors();
-    public abstract Set<JavaInterface> getInterfaces();
+    public abstract Map<String, JavaInterface> getInterfaces();
 }
