@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.balldrive;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 import org.firstinspires.ftc.teamcode.core.Setting;
@@ -19,10 +20,13 @@ public class DriveSubsystem extends Subsystem {
 
     private DcMotorEx motorL, motorR, motorS;
 
-    public enum Mode {MANUAL_XYR, MANUAL_LRS}
+    public enum Mode {MANUAL_XYR, MANUAL_LRS, AUTO_LRS, AUTO_STOP}
 
     @Setting
     public Mode mode;
+
+    @Setting
+    public ElapsedTime timer;
 
     public DriveSubsystem(OpModeExtended context) {
         super(context);
@@ -41,6 +45,8 @@ public class DriveSubsystem extends Subsystem {
         motorL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorR.setDirection(DcMotorSimple.Direction.FORWARD);
         motorS.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        timer = new ElapsedTime();
     }
 
     public void updateData() {
