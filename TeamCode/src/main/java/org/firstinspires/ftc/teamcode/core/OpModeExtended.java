@@ -60,6 +60,7 @@ public abstract class OpModeExtended extends OpMode {
     }
 
     public void stop() {
+        Log.i("team-code", "--------main loop end--------");
         LogRecorder.writeLog();
     }
 
@@ -73,8 +74,8 @@ public abstract class OpModeExtended extends OpMode {
         protected TealispFileManager manager;
 
         public final void init() {
-            manager = new TealispFileManager(teaLispFile, false, Registry.getInterfaces());
             autoinit();
+            manager = new TealispFileManager(teaLispFile, false, Registry.getInterfaces());
 
             try {
                 manager.getInterpreter().getRuntime().callFunction("init");
@@ -85,6 +86,7 @@ public abstract class OpModeExtended extends OpMode {
         }
         public final void update() {
             autoupdate();
+
             try {
                 manager.getInterpreter().getRuntime().callFunction("update");
             } catch (LispException e) {

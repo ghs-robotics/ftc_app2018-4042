@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import android.util.Log;
+
 import org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem;
 import org.majora320.tealisp.evaluator.JavaInterface;
 import org.majora320.tealisp.evaluator.LispException;
@@ -10,7 +12,8 @@ import org.majora320.tealisp.evaluator.StackFrame;
 public class MainInterface extends JavaInterface {
     @Override
     public boolean isSupportedFunction(String function) {
-        return false;
+        Log.i("team-code", "Function: " + function);
+        return "drive".equals(function);
     }
 
     private DriveSubsystem drive;
@@ -21,6 +24,7 @@ public class MainInterface extends JavaInterface {
 
     @Override
     public LispObject runFunction(String name, LispObject[] params, StackFrame frame) throws LispException {
+        Log.i("team-code", "name: " + name);
         switch(name) {
             case "drive":
                 checkParams("drive", params,
@@ -36,6 +40,9 @@ public class MainInterface extends JavaInterface {
                     }
                 }
 
+                Log.i("team-code", "l: " + processed[0]);
+                Log.i("team-code", "r: " + processed[1]);
+                Log.i("team-code", "s: " + processed[2] + "\n");
                 drive.setting("l", processed[0]);
                 drive.setting("r", processed[1]);
                 drive.setting("s", processed[2]);

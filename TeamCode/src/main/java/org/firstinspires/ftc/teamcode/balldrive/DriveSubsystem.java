@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.balldrive;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 import org.firstinspires.ftc.teamcode.core.Setting;
@@ -36,6 +37,10 @@ public class DriveSubsystem extends Subsystem {
         motorL = (DcMotorEx) context.hardwareMap.dcMotor.get("motorLF");
         motorR = (DcMotorEx) context.hardwareMap.dcMotor.get("motorRF");
         motorS = (DcMotorEx) context.hardwareMap.dcMotor.get("motorStrafe");
+
+        motorL.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorR.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorS.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void updateData() {
@@ -50,5 +55,6 @@ public class DriveSubsystem extends Subsystem {
         context.telemetry.addData("l", l);
         context.telemetry.addData("r", r);
         context.telemetry.addData("s", s);
+        context.telemetry.addData("mode", mode.name());
     }
 }

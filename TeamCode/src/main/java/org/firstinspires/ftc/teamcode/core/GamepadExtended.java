@@ -45,10 +45,10 @@ public class GamepadExtended {
         right_bumper = newButtonState(right_bumper, gamepad.right_bumper);
 
         left_stick_x = gamepad.left_stick_x;
-        left_stick_y = gamepad.left_stick_y;
+        left_stick_y = -gamepad.left_stick_y;
 
         right_stick_x = gamepad.right_stick_x;
-        right_stick_y = gamepad.right_stick_y;
+        right_stick_y = -gamepad.right_stick_y;
 
         left_trigger  = gamepad.left_trigger;
         right_trigger = gamepad.right_trigger;
