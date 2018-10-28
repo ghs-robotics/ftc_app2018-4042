@@ -2,8 +2,6 @@
 
 (define (init) #t)
 (define (update)
-  (if do-drive
-      (if (drive 1 1 0 3)
-          #t
-          (set! do-drive #f))
-      #t))
+  (when do-drive
+    (when (drive 1 1 0 1)
+      (set! do-drive #f))))

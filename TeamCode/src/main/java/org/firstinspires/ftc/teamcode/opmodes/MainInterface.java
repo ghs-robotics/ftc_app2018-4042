@@ -60,6 +60,9 @@ public class MainInterface extends JavaInterface {
                     return new LispObject.Boolean(false);
                 } else { // Stops the robot and waits
                     drive.setting("mode", DriveSubsystem.Mode.AUTO_STOP);
+                    drive.setting("l", 0);
+                    drive.setting("r", 0);
+                    drive.setting("s", 0);
                     Log.i("team-code", "" + true);
                     return new LispObject.Boolean(true);
                 }
