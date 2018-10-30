@@ -30,9 +30,9 @@
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
 import com.qualcomm.hardware.hitechnic.HiTechnicNxtGyroSensor;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gyroscope;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 
@@ -45,12 +45,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Sensor: HT Gyro", group = "Sensor")
+@TeleOp(name = "Sensor: HT Gyro", group = "Sensor")
 @Disabled
 public class SensorHTGyro extends LinearOpMode {
 
-    /**
-     * In this sample, for illustration purposes we use two interfaces on the one gyro object.
+    /** In this sample, for illustration purposes we use two interfaces on the one gyro object.
      * That's likely atypical: you'll probably use one or the other in any given situation,
      * depending on what you're trying to do. {@link IntegratingGyroscope} (and it's base interface,
      * {@link Gyroscope}) are common interfaces supported by possibly several different gyro
@@ -60,8 +59,7 @@ public class SensorHTGyro extends LinearOpMode {
     Gyroscope gyroscope;
     HiTechnicNxtGyroSensor hiTechnicNxtGyroSensor;
 
-    @Override
-    public void runOpMode() throws InterruptedException {
+    @Override public void runOpMode() throws InterruptedException {
 
         // Get a reference to the gyroscope from the hardware map
         gyroscope = hardwareMap.get(Gyroscope.class, "gyro");
@@ -91,10 +89,10 @@ public class SensorHTGyro extends LinearOpMode {
             double raw = hiTechnicNxtGyroSensor.readRawVoltage();
             double bias = hiTechnicNxtGyroSensor.getBiasVoltage();
 
-            telemetry.addData("rate", "%.4f deg/s", gyroscope.getAngularVelocity(AngleUnit.DEGREES).zRotationRate);
-            telemetry.addData("raw ", "%.4fv", raw);
-            telemetry.addData("bias", "%.4fv", bias);
-            telemetry.addData("volts", "%.4fv", raw - bias);
+            telemetry.addData("rate", "%.4f deg/s",      gyroscope.getAngularVelocity(AngleUnit.DEGREES).zRotationRate);
+            telemetry.addData("raw ", "%.4fv",           raw);
+            telemetry.addData("bias", "%.4fv",           bias);
+            telemetry.addData("volts", "%.4fv",          raw-bias);
             telemetry.addData("deg/s/v", "%.4f deg/s/v", hiTechnicNxtGyroSensor.getDefaultDegreesPerSecondPerVolt());
 
             telemetry.update();

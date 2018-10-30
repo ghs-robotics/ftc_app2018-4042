@@ -1,2 +1,3 @@
-include ':Tealisp', ':FtcRobotController', ':RobotCore', ':FtcCommon', ':Hardware', ':Inspection', ':OpenRC', ':Turbo'
+include ':FtcRobotController'
 include ':TeamCode'
+include ':Tealisp'

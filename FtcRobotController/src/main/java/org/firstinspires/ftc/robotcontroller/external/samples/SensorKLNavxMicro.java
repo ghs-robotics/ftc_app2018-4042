@@ -30,9 +30,9 @@
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
 import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gyroscope;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -50,12 +50,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@Autonomous(name = "Sensor: KL navX Micro", group = "Sensor")
+@TeleOp(name = "Sensor: KL navX Micro", group = "Sensor")
 @Disabled
 public class SensorKLNavxMicro extends LinearOpMode {
 
-    /**
-     * In this sample, for illustration purposes we use two interfaces on the one gyro object.
+    /** In this sample, for illustration purposes we use two interfaces on the one gyro object.
      * That's likely atypical: you'll probably use one or the other in any given situation,
      * depending on what you're trying to do. {@link IntegratingGyroscope} (and it's base interface,
      * {@link Gyroscope}) are common interfaces supported by possibly several different gyro
@@ -68,12 +67,11 @@ public class SensorKLNavxMicro extends LinearOpMode {
     // A timer helps provide feedback while calibration is taking place
     ElapsedTime timer = new ElapsedTime();
 
-    @Override
-    public void runOpMode() throws InterruptedException {
+    @Override public void runOpMode() throws InterruptedException {
         // Get a reference to a Modern Robotics GyroSensor object. We use several interfaces
         // on this object to illustrate which interfaces support which functionality.
         navxMicro = hardwareMap.get(NavxMicroNavigationSensor.class, "navx");
-        gyro = (IntegratingGyroscope) navxMicro;
+        gyro = (IntegratingGyroscope)navxMicro;
         // If you're only interested int the IntegratingGyroscope interface, the following will suffice.
         // gyro = hardwareMap.get(IntegratingGyroscope.class, "navx");
 
@@ -82,15 +80,13 @@ public class SensorKLNavxMicro extends LinearOpMode {
 
         // Wait until the gyro calibration is complete
         timer.reset();
-        while (navxMicro.isCalibrating()) {
-            telemetry.addData("calibrating", "%s", Math.round(timer.seconds()) % 2 == 0 ? "|.." : "..|");
+        while (navxMicro.isCalibrating())  {
+            telemetry.addData("calibrating", "%s", Math.round(timer.seconds())%2==0 ? "|.." : "..|");
             telemetry.update();
             Thread.sleep(50);
         }
-        telemetry.log().clear();
-        telemetry.log().add("Gyro Calibrated. Press Start.");
-        telemetry.clear();
-        telemetry.update();
+        telemetry.log().clear(); telemetry.log().add("Gyro Calibrated. Press Start.");
+        telemetry.clear(); telemetry.update();
 
         // Wait for the start button to be pressed
         waitForStart();
@@ -105,14 +101,14 @@ public class SensorKLNavxMicro extends LinearOpMode {
             Orientation angles = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
             telemetry.addLine()
-                    .addData("dx", formatRate(rates.xRotationRate))
-                    .addData("dy", formatRate(rates.yRotationRate))
-                    .addData("dz", "%s deg/s", formatRate(rates.zRotationRate));
+                .addData("dx", formatRate(rates.xRotationRate))
+                .addData("dy", formatRate(rates.yRotationRate))
+                .addData("dz", "%s deg/s", formatRate(rates.zRotationRate));
 
             telemetry.addLine()
-                    .addData("heading", formatAngle(angles.angleUnit, angles.firstAngle))
-                    .addData("roll", formatAngle(angles.angleUnit, angles.secondAngle))
-                    .addData("pitch", "%s deg", formatAngle(angles.angleUnit, angles.thirdAngle));
+                .addData("heading", formatAngle(angles.angleUnit, angles.firstAngle))
+                .addData("roll", formatAngle(angles.angleUnit, angles.secondAngle))
+                .addData("pitch", "%s deg", formatAngle(angles.angleUnit, angles.thirdAngle));
             telemetry.update();
 
             idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
@@ -127,7 +123,7 @@ public class SensorKLNavxMicro extends LinearOpMode {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
 
-    String formatDegrees(double degrees) {
+    String formatDegrees(double degrees){
         return String.format("%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 }

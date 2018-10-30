@@ -20,15 +20,13 @@ Thumbs.db
 
 # Android Studio
 *.iml
-.idea/*
-.idea/
-.gradle/
+.idea
+.gradle
 build/
 
-!.idea/codeStyleSettings.xml
-!/doc/apk/FtcDriverStation-release.apk
-/logs/
-vuforia.properties
+*ASUS_PC_01*
 
+vuforia.properties
 .floo
 .flooignore
+

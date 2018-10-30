@@ -33,9 +33,9 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 
@@ -52,7 +52,7 @@ import java.util.Locale;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Sensor: REVColorDistance", group = "Sensor")
+@TeleOp(name = "Sensor: REVColorDistance", group = "Sensor")
 @Disabled                            // Comment this out to add to the opmode list
 public class SensorREVColorDistance extends LinearOpMode {
 
@@ -61,16 +61,17 @@ public class SensorREVColorDistance extends LinearOpMode {
      * It has a light/distance (range) sensor.  It also has an RGB color sensor.
      * The light/distance sensor saturates at around 2" (5cm).  This means that targets that are 2"
      * or closer will display the same value for distance/light detected.
-     * <p>
+     *
      * Although you configure a single REV Robotics Color-Distance sensor in your configuration file,
      * you can treat the sensor as two separate sensors that share the same name in your op mode.
-     * <p>
+     *
      * In this example, we represent the detected color by a hue, saturation, and value color
      * model (see https://en.wikipedia.org/wiki/HSL_and_HSV).  We change the background
      * color of the screen to match the detected color.
-     * <p>
+     *
      * In this example, we  also use the distance sensor to display the distance
      * to the target object.  Note that the distance sensor saturates at around 2" (5 cm).
+     *
      */
     ColorSensor sensorColor;
     DistanceSensor sensorDistance;
