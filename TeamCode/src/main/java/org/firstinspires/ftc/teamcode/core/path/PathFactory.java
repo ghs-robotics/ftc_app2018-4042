@@ -24,7 +24,7 @@ public class PathFactory {
         this.max_vel = max_vel;
         this.max_acc = max_acc;
         this.timestep = timestep;
-        data = new PathData();
+        data = new PathData(timestep);
 
         this.pos = i_pos;
         this.vel = i_vel;
@@ -35,10 +35,11 @@ public class PathFactory {
         accelerateTowardsTarget();
         continueLinearly();
         cancelVelocity(f_vel);
+        zeroPoint();
     }
 
     void cancelVelocity(double targ) {
-        while (abs(vel - targ) > max_acc) {
+        while (abs(vel - targ) > max_acc * timestep) {
             acc = max_acc * -direction(targ, vel);
             vel += acc * timestep;
             pos += vel * timestep;
@@ -68,7 +69,10 @@ public class PathFactory {
     }
 
     void zeroPoint() {
-
+        acc = f_vel - vel;
+        vel = 0;
+        pos = vel + pos;
+        data.states.add(new PathState(time, pos, vel, acc));
     }
 
     double displacementUntilVelocity(double targvel) {
@@ -76,7 +80,7 @@ public class PathFactory {
         double pos = 0;
         double vel = this.vel;
         //double acc = max_acc * direction(vel, targvel);
-        while (abs(targvel - vel) > max_acc) {
+        while (abs(targvel - vel) > max_acc * timestep) {
             acc = max_acc * direction(vel, targvel);
             vel += acc * timestep;
             pos += vel * timestep;
