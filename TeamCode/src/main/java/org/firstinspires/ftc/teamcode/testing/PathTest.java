@@ -18,28 +18,31 @@ public class PathTest extends OpMode {
 
     @Override
     public void init() {
-        data = new PathFactory(0, 0, 100, 0, 10, 2, .01).data;
+        data = new PathFactory(0, 0, 3000, 0, 1000, 300, .1).data;
         motor = (DcMotorEx) hardwareMap.dcMotor.get("motorStrafe");
+        for (PathState state : data.states) {
+            telemetry.log().add(state.time + " " + state.pos + " " + state.vel + " " + state.acc);
+        }
     }
 
     @Override
     public void start() {
-        //startTime = getTime();
-        startTime = System.currentTimeMillis() / 10;
+        startTime = getTime();
     }
+
 
     @Override
     public void loop() {
-        double currTime = (System.currentTimeMillis() - startTime * 10) / 10;
+        double currTime = getTime() - startTime;
 
-        PathState nextState = data.states.get((int) (currTime / .01));
+        PathState nextState = data.getForTime(currTime);
 
         motor.setVelocity(nextState.vel, AngleUnit.DEGREES);
 
-        telemetry.log().add(currTime + " " + data.states.size() + " " + (int) (currTime / .01));
+        telemetry.log().add(currTime + " " + data.states.size() + " " + nextState.vel);
     }
 
     private double getTime() {
-        return System.currentTimeMillis() / 1000;
+        return System.currentTimeMillis() / 1000.0;
     }
 }
