@@ -4,9 +4,11 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 import org.firstinspires.ftc.teamcode.core.Setting;
 import org.firstinspires.ftc.teamcode.core.Subsystem;
+import org.firstinspires.ftc.teamcode.core.path.PathData;
 
 public class DriveSubsystem extends Subsystem {
     private OpModeExtended context;
@@ -20,13 +22,19 @@ public class DriveSubsystem extends Subsystem {
 
     private DcMotorEx motorL, motorR, motorS;
 
-    public enum Mode {MANUAL_XYR, MANUAL_LRS, AUTO_LRS, AUTO_STOP}
+    public enum Mode {MANUAL_XYR, MANUAL_LRS, AUTO_LRS, AUTO_PATH, AUTO_STOP}
 
     @Setting
     public Mode mode;
 
     @Setting
     public ElapsedTime timer;
+
+    @Setting
+    public PathData path;
+
+    @Setting
+    public double startTime;
 
     public DriveSubsystem(OpModeExtended context) {
         super(context);
@@ -54,9 +62,15 @@ public class DriveSubsystem extends Subsystem {
     }
 
     public void updateActuators() {
-        motorL.setPower(l);
-        motorR.setPower(r);
-        motorS.setPower(s);
+        if (mode.equals(Mode.AUTO_PATH)) {
+            motorL.setVelocity(l, AngleUnit.DEGREES);
+            motorR.setVelocity(r, AngleUnit.DEGREES);
+            motorS.setVelocity(s, AngleUnit.DEGREES);
+        } else {
+            motorL.setPower(l);
+            motorR.setPower(r);
+            motorS.setPower(s);
+        }
 
         context.telemetry.addData("l", l);
         context.telemetry.addData("r", r);

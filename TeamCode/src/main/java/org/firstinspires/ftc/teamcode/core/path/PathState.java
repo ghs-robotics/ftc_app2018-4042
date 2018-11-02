@@ -12,4 +12,6 @@ public class PathState {
         this.vel = vel;
         this.acc = acc;
     }
+
+    public static final PathState END_POINT = new PathState(-1, -1, -1, -1);
 }
