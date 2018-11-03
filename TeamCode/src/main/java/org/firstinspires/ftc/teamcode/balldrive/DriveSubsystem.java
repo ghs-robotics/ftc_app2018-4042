@@ -1,10 +1,7 @@
 package org.firstinspires.ftc.teamcode.balldrive;
 
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 import org.firstinspires.ftc.teamcode.core.Setting;
 import org.firstinspires.ftc.teamcode.core.Subsystem;
@@ -13,16 +10,31 @@ import org.firstinspires.ftc.teamcode.core.path.PathData;
 public class DriveSubsystem extends Subsystem {
     private OpModeExtended context;
 
-    @Setting
-    public double l;
-    @Setting
-    public double r;
-    @Setting
-    public double s;
+    private DriveActuator actuator;
 
-    private DcMotorEx motorL, motorR, motorS;
+    @Setting
+    public double manualL;
+    @Setting
+    public double manualR;
+    @Setting
+    public double manualS;
+    @Setting
+    public double manualX;
+    @Setting
+    public double manualY;
 
-    public enum Mode {MANUAL_XYR, MANUAL_LRS, AUTO_LRS, AUTO_PATH, AUTO_STOP}
+    @Setting
+    public double autoL;
+    @Setting
+    public double autoR;
+    @Setting
+    public double autoS;
+    @Setting
+    public double autoT;
+
+    private double finalL, finalR, finalS;
+
+    public enum Mode {MANUAL_XYR, MANUAL_LRS, AUTO_LRS_INIT, AUTO_LRS, AUTO_LRS_STOP, AUTO_PATH, AUTO_IDLE}
 
     @Setting
     public Mode mode;
@@ -39,42 +51,67 @@ public class DriveSubsystem extends Subsystem {
     public DriveSubsystem(OpModeExtended context) {
         super(context);
         this.context = context;
+        this.actuator = new DriveActuator(context);
     }
 
     public void init() {
-        l = 0;
-        r = 0;
-        s = 0;
-
-        motorL = (DcMotorEx) context.hardwareMap.dcMotor.get("motorLF");
-        motorR = (DcMotorEx) context.hardwareMap.dcMotor.get("motorRF");
-        motorS = (DcMotorEx) context.hardwareMap.dcMotor.get("motorStrafe");
-
-        motorL.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorR.setDirection(DcMotorSimple.Direction.FORWARD);
-        motorS.setDirection(DcMotorSimple.Direction.REVERSE);
+        manualL = 0;
+        manualR = 0;
+        manualS = 0;
+        manualX = 0;
+        manualY = 0;
+        finalL = 0;
+        finalR = 0;
+        finalS = 0;
 
         timer = new ElapsedTime();
     }
 
     public void updateData() {
-
+        switch (mode) {
+            case MANUAL_LRS:
+                finalL = manualL;
+                finalR = manualR;
+                finalS = manualS;
+                break;
+            case MANUAL_XYR:
+                finalL = manualY + manualR;
+                finalR = manualY - manualR;
+                finalS = manualX;
+                break;
+            case AUTO_LRS_INIT:
+                timer.reset();
+                mode = Mode.AUTO_LRS;
+                break;
+            case AUTO_LRS:
+                if (timer.seconds() <= autoT) {
+                    finalL = autoL;
+                    finalR = autoR;
+                    finalS = autoS;
+                } else {
+                    mode = Mode.AUTO_LRS_STOP;
+                }
+                break;
+            case AUTO_LRS_STOP:
+                finalL = 0;
+                finalR = 0;
+                finalS = 0;
+                mode = Mode.AUTO_IDLE;
+                break;
+        }
+        context.telemetry.addData("aaa","bbb");
     }
 
     public void updateActuators() {
-        if (mode.equals(Mode.AUTO_PATH)) {
-            motorL.setVelocity(l, AngleUnit.DEGREES);
-            motorR.setVelocity(r, AngleUnit.DEGREES);
-            motorS.setVelocity(s, AngleUnit.DEGREES);
-        } else {
-            motorL.setPower(l);
-            motorR.setPower(r);
-            motorS.setPower(s);
-        }
-
-        context.telemetry.addData("l", l);
-        context.telemetry.addData("r", r);
-        context.telemetry.addData("s", s);
+        context.telemetry.addData("l", finalL);
+        context.telemetry.addData("r", finalR);
+        context.telemetry.addData("s", finalS);
         context.telemetry.addData("mode", mode.name());
+
+        if (mode.equals(Mode.AUTO_PATH)) {
+            actuator.setVelocity(finalL, finalR, finalS);
+        } else {
+            actuator.setPower(finalL, finalR, finalS);
+        }
     }
 }

@@ -1,15 +1,11 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import android.os.Environment;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.core.ClassHolder;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 import org.firstinspires.ftc.teamcode.core.Registry;
-import org.firstinspires.ftc.teamcode.core.Subsystem;
-import org.majora320.tealisp.evaluator.LispObject;
 
 import java.io.File;
 
@@ -31,7 +27,7 @@ public class BallAuto extends OpModeExtended {
         public void autoinit() {
             teaLispFile = new File("./storage/emulated/0/bluetooth/ballauto.tl");
             drive = (DriveSubsystem) Registry.getSubsystemByName("driveSubsystem");
-            drive.setting("mode", DriveSubsystem.Mode.AUTO_STOP);
+            drive.setting("mode", DriveSubsystem.Mode.AUTO_IDLE);
             ((MainInterface) Registry.getInterfaceByName("main")).setDrive(drive);
         }
 
