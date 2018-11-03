@@ -2,9 +2,6 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import android.util.Log;
 
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.core.path.PathData;
 import org.firstinspires.ftc.teamcode.core.path.PathFactory;
@@ -14,6 +11,8 @@ import org.majora320.tealisp.evaluator.LispException;
 import org.majora320.tealisp.evaluator.LispObject;
 import org.majora320.tealisp.evaluator.LispObject.Number;
 import org.majora320.tealisp.evaluator.StackFrame;
+
+import static org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem.Mode.*;
 
 public class MainInterface extends JavaInterface {
     @Override
@@ -65,7 +64,7 @@ public class MainInterface extends JavaInterface {
         double[] processed = getAsDoubles(params);
 
         //Runs the first time; calculates the path
-        if (drive.getSetting("mode").equals(DriveSubsystem.Mode.AUTO_STOP)) {
+        if (drive.getSetting("mode").equals(AUTO_IDLE)) {
             PathFactory factory = new PathFactory(processed[0], processed[1], processed[2], processed[3], processed[4], processed[5], processed[6]);
             drive.setting("path", factory.data); //create and set path
             drive.setting("startTime", getTime());
@@ -80,7 +79,7 @@ public class MainInterface extends JavaInterface {
         drive.setting("s", nextState.vel);
 
         if (nextState.equals(PathState.END_POINT)) { //Stop the robot from moving and reset to stop mode
-            drive.setting("mode", DriveSubsystem.Mode.AUTO_STOP);
+            drive.setting("mode", AUTO_IDLE);
             return new LispObject.Boolean(true);
         } else {
             return new LispObject.Boolean(false);
@@ -103,29 +102,19 @@ public class MainInterface extends JavaInterface {
 
         double[] processed = getAsDoubles(params);
 
-        ElapsedTime timer = (ElapsedTime) drive.getSetting("timer");
+        switch ((DriveSubsystem.Mode) drive.getSetting("mode")) {
+            case AUTO_IDLE:
+                drive.setting("mode", DriveSubsystem.Mode.AUTO_LRS_INIT);
+                drive.setting("autoL", processed[0]);
+                drive.setting("autoR", processed[1]);
+                drive.setting("autoS", processed[2]);
+                drive.setting("autoT", processed[3]);
+                return new LispObject.Boolean(false);
+            case AUTO_LRS_STOP:
+                return new LispObject.Boolean(true);
+            default:
+                return new LispObject.Boolean(false);
 
-        // Runs the first time and starts the timer
-        if (drive.getSetting("mode").equals(DriveSubsystem.Mode.AUTO_STOP)) {
-            timer.reset();
-            drive.setting("mode", DriveSubsystem.Mode.AUTO_LRS);
-        }
-
-        Log.i("team-code", "timer: " + timer.seconds());
-        // Runs while the timer is less than the target time
-        if (timer.seconds() <= processed[3]) {
-            drive.setting("l", processed[0]);
-            drive.setting("r", processed[1]);
-            drive.setting("s", processed[2]);
-            Log.i("team-code", "" + false);
-            return new LispObject.Boolean(false);
-        } else { // Stops the robot and waits
-            drive.setting("mode", DriveSubsystem.Mode.AUTO_STOP);
-            drive.setting("l", 0);
-            drive.setting("r", 0);
-            drive.setting("s", 0);
-            Log.i("team-code", "" + true);
-            return new LispObject.Boolean(true);
         }
     }
 
