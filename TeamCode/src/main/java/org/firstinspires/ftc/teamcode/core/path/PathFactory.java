@@ -36,6 +36,7 @@ public class PathFactory {
         continueLinearly();
         cancelVelocity(f_vel);
         zeroPoint();
+        stopPoint();
     }
 
     void cancelVelocity(double targ) {
@@ -73,6 +74,10 @@ public class PathFactory {
         vel = 0;
         pos = vel + pos;
         data.states.add(new PathState(time, pos, vel, acc));
+    }
+
+    void stopPoint() {
+        data.states.add(PathState.END_POINT);
     }
 
     double displacementUntilVelocity(double targvel) {
