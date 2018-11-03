@@ -63,31 +63,22 @@ public class MainInterface extends JavaInterface {
                 false);
         double[] processed = getAsDoubles(params);
 
-        //Runs the first time; calculates the path
-        if (drive.getSetting("mode").equals(AUTO_IDLE)) {
-            PathFactory factory = new PathFactory(processed[0], processed[1], processed[2], processed[3], processed[4], processed[5], processed[6]);
-            drive.setting("path", factory.data); //create and set path
-            drive.setting("startTime", getTime());
-            drive.setting("mode", DriveSubsystem.Mode.AUTO_PATH);
+        switch ((DriveSubsystem.Mode) drive.getSetting("mode")) {
+            case AUTO_IDLE:
+                drive.setting("mode", DriveSubsystem.Mode.AUTO_PATH_INIT);
+                drive.setting("initPos",  processed[0]);
+                drive.setting("initVel",  processed[1]);
+                drive.setting("finalPos", processed[2]);
+                drive.setting("finalVel", processed[3]);
+                drive.setting("maxVel",   processed[4]);
+                drive.setting("maxAccel", processed[5]);
+                drive.setting("timestep", processed[6]);
+                return new LispObject.Boolean(false);
+            case AUTO_PATH_STOP:
+                return new LispObject.Boolean(true);
+            default:
+                return new LispObject.Boolean(false);
         }
-
-        //Runs the path each loop cycle on the strafe motor
-        double currTime = getTime() - (double) drive.getSetting("startTime");
-
-        PathState nextState = ((PathData) drive.getSetting("path")).getForTime(currTime);
-
-        drive.setting("s", nextState.vel);
-
-        if (nextState.equals(PathState.END_POINT)) { //Stop the robot from moving and reset to stop mode
-            drive.setting("mode", AUTO_IDLE);
-            return new LispObject.Boolean(true);
-        } else {
-            return new LispObject.Boolean(false);
-        }
-    }
-
-    private double getTime() {
-        return System.currentTimeMillis() / 1000.0; //convert to seconds
     }
 
     private LispObject logFun(LispObject[] params) throws LispException {

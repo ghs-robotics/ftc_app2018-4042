@@ -6,6 +6,8 @@ import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 import org.firstinspires.ftc.teamcode.core.Setting;
 import org.firstinspires.ftc.teamcode.core.Subsystem;
 import org.firstinspires.ftc.teamcode.core.path.PathData;
+import org.firstinspires.ftc.teamcode.core.path.PathFactory;
+import org.firstinspires.ftc.teamcode.core.path.PathState;
 
 public class DriveSubsystem extends Subsystem {
     private OpModeExtended context;
@@ -32,9 +34,28 @@ public class DriveSubsystem extends Subsystem {
     @Setting
     public double autoT;
 
+    @Setting
+    public double initPos;
+    @Setting
+    public double initVel;
+    @Setting
+    public double finalPos;
+    @Setting
+    public double finalVel;
+    @Setting
+    public double maxVel;
+    @Setting
+    public double maxAccel;
+    @Setting
+    public double timestep;
+
     private double finalL, finalR, finalS;
 
-    public enum Mode {MANUAL_XYR, MANUAL_LRS, AUTO_LRS_INIT, AUTO_LRS, AUTO_LRS_STOP, AUTO_PATH, AUTO_IDLE}
+    public enum Mode {
+        MANUAL_XYR, MANUAL_LRS,
+        AUTO_LRS_INIT, AUTO_LRS, AUTO_LRS_STOP,
+        AUTO_PATH_INIT, AUTO_PATH, AUTO_PATH_STOP,
+        AUTO_IDLE}
 
     @Setting
     public Mode mode;
@@ -45,8 +66,7 @@ public class DriveSubsystem extends Subsystem {
     @Setting
     public PathData path;
 
-    @Setting
-    public double startTime;
+    private double startTime;
 
     public DriveSubsystem(OpModeExtended context) {
         super(context);
@@ -98,6 +118,23 @@ public class DriveSubsystem extends Subsystem {
                 finalS = 0;
                 mode = Mode.AUTO_IDLE;
                 break;
+            case AUTO_PATH_INIT:
+                startTime = currTime();
+                PathFactory factory = new PathFactory(initPos, initVel, finalPos, finalVel, maxVel, maxAccel, timestep);
+                path = factory.data;
+                mode = Mode.AUTO_PATH;
+                break;
+            case AUTO_PATH:
+                PathState nextState = path.getForTime(currTime() - startTime);
+                if (nextState.equals(PathState.END_POINT)) {
+                    mode = Mode.AUTO_PATH_STOP;
+                } else {
+                    finalS = nextState.vel;
+                }
+                break;
+            case AUTO_PATH_STOP:
+                finalS = 0;
+                break;
         }
         context.telemetry.addData("aaa","bbb");
     }
@@ -113,5 +150,9 @@ public class DriveSubsystem extends Subsystem {
         } else {
             actuator.setPower(finalL, finalR, finalS);
         }
+    }
+
+    private double currTime() {
+        return System.currentTimeMillis() / 1000.0; //convert to seconds
     }
 }
