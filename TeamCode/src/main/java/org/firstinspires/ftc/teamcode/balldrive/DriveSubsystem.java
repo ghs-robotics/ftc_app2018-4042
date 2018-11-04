@@ -54,7 +54,7 @@ public class DriveSubsystem extends Subsystem {
     public enum Mode {
         MANUAL_XYR, MANUAL_LRS,
         AUTO_LRS_INIT, AUTO_LRS, AUTO_LRS_STOP,
-        AUTO_PATH_INIT, AUTO_PATH, AUTO_PATH_STOP,
+        PATH_INIT, PATH, PATH_STOP,
         AUTO_IDLE}
 
     @Setting
@@ -118,25 +118,26 @@ public class DriveSubsystem extends Subsystem {
                 finalS = 0;
                 mode = Mode.AUTO_IDLE;
                 break;
-            case AUTO_PATH_INIT:
+            case PATH_INIT:
                 startTime = currTime();
                 PathFactory factory = new PathFactory(initPos, initVel, finalPos, finalVel, maxVel, maxAccel, timestep);
                 path = factory.data;
-                mode = Mode.AUTO_PATH;
+                mode = Mode.PATH;
+                context.telemetry.addData("finalPos", finalPos);
                 break;
-            case AUTO_PATH:
+            case PATH:
                 PathState nextState = path.getForTime(currTime() - startTime);
                 if (nextState.equals(PathState.END_POINT)) {
-                    mode = Mode.AUTO_PATH_STOP;
+                    mode = Mode.PATH_STOP;
                 } else {
                     finalS = nextState.vel;
                 }
                 break;
-            case AUTO_PATH_STOP:
+            case PATH_STOP:
                 finalS = 0;
+                mode = Mode.AUTO_IDLE;
                 break;
         }
-        context.telemetry.addData("aaa","bbb");
     }
 
     public void updateActuators() {
@@ -145,7 +146,7 @@ public class DriveSubsystem extends Subsystem {
         context.telemetry.addData("s", finalS);
         context.telemetry.addData("mode", mode.name());
 
-        if (mode.equals(Mode.AUTO_PATH)) {
+        if (mode.equals(Mode.PATH)) {
             actuator.setVelocity(finalL, finalR, finalS);
         } else {
             actuator.setPower(finalL, finalR, finalS);

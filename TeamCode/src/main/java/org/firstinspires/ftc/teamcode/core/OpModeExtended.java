@@ -61,7 +61,7 @@ public abstract class OpModeExtended extends OpMode {
 
     public void stop() {
         Log.i("team-code", "--------main loop end--------");
-        LogRecorder.writeLog();
+        //LogRecorder.writeLog();
     }
 
     public interface InputControlManager {
