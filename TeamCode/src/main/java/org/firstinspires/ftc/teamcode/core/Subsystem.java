@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.core;
 
+import android.util.Log;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -36,13 +38,17 @@ public abstract class Subsystem {
     public void setting(String name, Object object) {
         try {
             settings.get(name).set(this, object);
-        } catch (IllegalAccessException e) {}
+        } catch (IllegalAccessException e) {
+            Log.w("team-code", "IllegalAccessException from Subsystem.setting", e);
+        }
     }
-    public Object getSetting(String name) {
+
+    public Object getSetting(String name) throws IllegalAccessException {
         try {
             return settings.get(name).get(this);
         } catch (IllegalAccessException e) {
-            return "oops";
+            Log.w("team-code", "IllegalAccessException from Subsystem.getSetting", e);
+            throw e;
         }
     }
 }
