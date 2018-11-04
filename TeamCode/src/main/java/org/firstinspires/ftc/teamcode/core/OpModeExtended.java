@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.teamcode.core.tealisp.TealispSubsystemInterface;
 import org.majora320.tealisp.evaluator.JavaInterface;
 import org.majora320.tealisp.evaluator.LispException;
 
@@ -26,6 +27,7 @@ public abstract class OpModeExtended extends OpMode {
         try {
             this.inputControlManager = getInputControlManager();
             this.classHolder = getClassHolder();
+            classHolder.getInterfaces().put("TealispSubsystemInterface", new TealispSubsystemInterface());
 
             this.gamepadExtended1 = new GamepadExtended(gamepad1);
             this.gamepadExtended2 = new GamepadExtended(gamepad2);
