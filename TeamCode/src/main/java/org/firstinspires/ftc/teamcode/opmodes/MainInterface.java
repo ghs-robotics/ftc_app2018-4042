@@ -3,22 +3,17 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import android.util.Log;
 
 import org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem;
-import org.firstinspires.ftc.teamcode.core.path.PathData;
-import org.firstinspires.ftc.teamcode.core.path.PathFactory;
-import org.firstinspires.ftc.teamcode.core.path.PathState;
 import org.majora320.tealisp.evaluator.JavaInterface;
 import org.majora320.tealisp.evaluator.LispException;
 import org.majora320.tealisp.evaluator.LispObject;
 import org.majora320.tealisp.evaluator.LispObject.Number;
 import org.majora320.tealisp.evaluator.StackFrame;
 
-import static org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem.Mode.*;
-
 public class MainInterface extends JavaInterface {
     @Override
     public boolean isSupportedFunction(String function) {
         //Log.i("team-code", "Function: " + function);
-        return "drive".equals(function) || "log".equals(function);
+        return "drive".equals(function) || "log".equals(function) || "path".equals(function);
     }
 
     private DriveSubsystem drive;
@@ -65,16 +60,17 @@ public class MainInterface extends JavaInterface {
 
         switch ((DriveSubsystem.Mode) drive.getSetting("mode")) {
             case AUTO_IDLE:
-                drive.setting("mode", DriveSubsystem.Mode.AUTO_PATH_INIT);
+                drive.setting("mode", DriveSubsystem.Mode.PATH_INIT);
                 drive.setting("initPos",  processed[0]);
                 drive.setting("initVel",  processed[1]);
                 drive.setting("finalPos", processed[2]);
+                Log.i("team-code", processed[2] + " processed[2]");
                 drive.setting("finalVel", processed[3]);
                 drive.setting("maxVel",   processed[4]);
                 drive.setting("maxAccel", processed[5]);
                 drive.setting("timestep", processed[6]);
                 return new LispObject.Boolean(false);
-            case AUTO_PATH_STOP:
+            case PATH_STOP:
                 return new LispObject.Boolean(true);
             default:
                 return new LispObject.Boolean(false);
@@ -114,9 +110,9 @@ public class MainInterface extends JavaInterface {
         for (int i = 0; i < params.length; i++) {
             LispObject param = params[i];
             if (param instanceof LispObject.Integer) {
-                processed[i] = ((LispObject.Integer) param).value;
+                processed[i] = ((LispObject.Integer) param).getValue();
             } else if (param instanceof LispObject.Double) {
-                processed[i] = ((LispObject.Double) param).value;
+                processed[i] = ((LispObject.Double) param).getValue();
             }
         }
         return processed;

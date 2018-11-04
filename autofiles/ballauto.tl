@@ -1,7 +1,13 @@
-(define do-drive #t)
+(define state 'run-motor)
 
 (define (init) #t)
 (define (update)
-  (when do-drive
-    (when (drive 1 1 0 1)
-      (set! do-drive #f))))
+  (cond
+    ([symbol=? state 'run-motor]
+     (unless (path 0 0 -1000 0 1000 300 0.1)
+       (set! state 'run-backward)))
+    ([symbol=? state 'run-backward]
+     (unless (path 0 0 1000 0 1000 300 0.1)
+       (set! state 'run-motor)))
+  )
+)
