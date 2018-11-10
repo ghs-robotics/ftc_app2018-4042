@@ -123,7 +123,7 @@ public class DriveSubsystem extends Subsystem {
                 PathFactory factory = new PathFactory(initPos, initVel, finalPos, finalVel, maxVel, maxAccel, timestep);
                 path = factory.data;
                 mode = Mode.PATH;
-                context.telemetry.addData("finalPos", finalPos);
+                context.telemetry.log().add("finalPos: " + finalPos);
                 break;
             case PATH:
                 PathState nextState = path.getForTime(currTime() - startTime);
