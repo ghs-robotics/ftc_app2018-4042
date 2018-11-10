@@ -43,12 +43,12 @@ public abstract class Subsystem {
         }
     }
 
-    public Object getSetting(String name) throws IllegalAccessException {
+    public Object getSetting(String name) {
         try {
             return settings.get(name).get(this);
         } catch (IllegalAccessException e) {
             Log.w("team-code", "IllegalAccessException from Subsystem.getSetting", e);
-            throw e;
+            return null;
         }
     }
 }
