@@ -114,9 +114,9 @@ public class MainInterface extends JavaInterface {
         for (int i = 0; i < params.length; i++) {
             LispObject param = params[i];
             if (param instanceof LispObject.Integer) {
-                processed[i] = ((LispObject.Integer) param).value;
+                processed[i] = ((LispObject.Integer) param).getValue();
             } else if (param instanceof LispObject.Double) {
-                processed[i] = ((LispObject.Double) param).value;
+                processed[i] = ((LispObject.Double) param).getValue();
             }
         }
         return processed;
