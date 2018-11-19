@@ -18,6 +18,10 @@ public class PathFactory {
 
     public double timestep;
 
+    public PathFactory(double[] pathVars) {
+        this(pathVars[0], pathVars[1], pathVars[2], pathVars[3], pathVars[4], pathVars[5], pathVars[6]);
+    }
+
     public PathFactory(double i_pos, double i_vel, double f_pos, double f_vel, double max_vel, double max_acc, double timestep) {
         this.i_pos = i_pos;
         this.i_vel = i_vel;

@@ -9,6 +9,9 @@ import org.majora320.tealisp.evaluator.LispObject;
 import org.majora320.tealisp.evaluator.LispObject.Number;
 import org.majora320.tealisp.evaluator.StackFrame;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class MainInterface extends JavaInterface {
     @Override
     public boolean isSupportedFunction(String function) {
@@ -47,34 +50,59 @@ public class MainInterface extends JavaInterface {
 
     /**
      * Follows a path specified by the parameters
-     * @param params (1) Initial position (2) Initial velocity (3) Final position (4) Final velocity
-     *               (5) Maximum velocity (6) Maximum acceleration (7) Time step (.1 recommended)
+     * @param params Controls for each path, in sets of seven
+     *               One set: only strafe motor || two sets: left and right || three sets: all
+     *
+     *               (0) Initial position (1) Initial velocity (2) Final position (3) Final velocity
+     *               (4) Maximum velocity (5) Maximum acceleration (6) Time step (.1 recommended)
      * @return Whether the path has been completed
      * @throws LispException If the parameters aren't all doubles
      */
     private LispObject pathFun(LispObject[] params) throws LispException {
         checkParams("path", params,
                 new Class[]{ Number.class, Number.class, Number.class, Number.class, Number.class, Number.class, Number.class, },
-                false);
-        double[] processed = getAsDoubles(params);
+                true);
+        double[] processedS;
+        double[] processedL;
+        double[] processedR;
+
+        Log.i("team-code", "length: " + params.length);
+
+        if (params.length == 7) { //Assume that 7 path parameters are for the strafe motor
+            processedS = getAsDoubles(params);
+            processedL = zero();
+            processedR = zero();
+        } else if (params.length == 14) { //Assume that 14 path parameters are for left and right
+            processedS = zero();
+            processedL = getAsDoubles(Arrays.copyOfRange(params, 0, 7));
+            processedR = getAsDoubles(Arrays.copyOfRange(params, 7, 14));
+        } else { //Assume any other set of path parameters is to control all motors
+            processedS = getAsDoubles(Arrays.copyOfRange(params, 0, 7));
+            processedL = getAsDoubles(Arrays.copyOfRange(params, 7, 14));
+            processedR = getAsDoubles(Arrays.copyOfRange(params, 14, 21));
+        }
 
         switch ((DriveSubsystem.Mode) drive.getSetting("mode")) {
-            case AUTO_IDLE:
+            case AUTO_IDLE: //Set paths for each motor
                 drive.setting("mode", DriveSubsystem.Mode.PATH_INIT);
-                drive.setting("initPos",  processed[0]);
-                drive.setting("initVel",  processed[1]);
-                drive.setting("finalPos", processed[2]);
-                Log.i("team-code", processed[2] + " processed[2]");
-                drive.setting("finalVel", processed[3]);
-                drive.setting("maxVel",   processed[4]);
-                drive.setting("maxAccel", processed[5]);
-                drive.setting("timestep", processed[6]);
+                drive.setting("sPathVars",  processedS);
+                drive.setting("lPathVars", processedL);
+                drive.setting("rPathVars", processedR);
+                Log.i("team-code", processedS + " finalPos");
                 return new LispObject.Boolean(false);
             case PATH_STOP:
                 return new LispObject.Boolean(true);
             default:
                 return new LispObject.Boolean(false);
         }
+    }
+
+    /**
+     * Used to set a nonexistent path for a motor
+     * @return Six zeros as a double array
+     */
+    private double[] zero() {
+        return new double[]{0, 0, 0, 0, 0, 0, 0};
     }
 
     private LispObject logFun(LispObject[] params) throws LispException {
@@ -105,7 +133,12 @@ public class MainInterface extends JavaInterface {
         }
     }
 
-    public double[] getAsDoubles(LispObject[] params) {
+    /**
+     * Loops through an array of LispObjects of type Number and turns them into doubles
+     * @param params An unprocessed array of LispObject.Number's
+     * @return The processed array of doubles
+     */
+    private double[] getAsDoubles(LispObject[] params) {
         double[] processed = new double[params.length];
         for (int i = 0; i < params.length; i++) {
             LispObject param = params[i];
