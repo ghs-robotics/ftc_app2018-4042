@@ -34,20 +34,16 @@ public class DriveSubsystem extends Subsystem {
     @Setting
     public double autoT;
 
+    /** Paths:
+     * (0) Initial position (1) Initial velocity (2) Final position (3) Final velocity
+     * (4) Maximum velocity (5) Maximum acceleration (6) Time step (.1 recommended)
+     */
     @Setting
-    public double initPos;
+    public double[] sPathVars;
     @Setting
-    public double initVel;
+    public double[] rPathVars;
     @Setting
-    public double finalPos;
-    @Setting
-    public double finalVel;
-    @Setting
-    public double maxVel;
-    @Setting
-    public double maxAccel;
-    @Setting
-    public double timestep;
+    public double[] lPathVars;
 
     private double finalL, finalR, finalS;
 
@@ -64,7 +60,11 @@ public class DriveSubsystem extends Subsystem {
     public ElapsedTime timer;
 
     @Setting
-    public PathData path;
+    public PathData pathS;
+    @Setting
+    public PathData pathL;
+    @Setting
+    public PathData pathR;
 
     private double startTime;
 
@@ -118,23 +118,36 @@ public class DriveSubsystem extends Subsystem {
                 finalS = 0;
                 mode = Mode.AUTO_IDLE;
                 break;
-            case PATH_INIT:
+            case PATH_INIT: //Runs once to calculate a path for the robot
                 startTime = currTime();
-                PathFactory factory = new PathFactory(initPos, initVel, finalPos, finalVel, maxVel, maxAccel, timestep);
-                path = factory.data;
+
+                PathFactory factoryS = new PathFactory(sPathVars);
+                pathS = factoryS.data;
+                PathFactory factoryL = new PathFactory(lPathVars);
+                pathL = factoryL.data;
+                PathFactory factoryR = new PathFactory(rPathVars);
+                pathR = factoryR.data;
+
                 mode = Mode.PATH;
-                context.telemetry.log().add("finalPos: " + finalPos);
+                context.telemetry.log().add("finalPos: " + sPathVars[2]);
                 break;
-            case PATH:
-                PathState nextState = path.getForTime(currTime() - startTime);
-                if (nextState.equals(PathState.END_POINT)) {
+            case PATH: //Runs every loop cycle to execute the path
+                PathState nextStateS = pathS.getForTime(currTime() - startTime);
+                PathState nextStateR = pathR.getForTime(currTime() - startTime);
+                PathState nextStateL = pathL.getForTime(currTime() - startTime);
+
+                if (nextStateS.equals(PathState.END_POINT) && nextStateL.equals(PathState.END_POINT) && nextStateR.equals(PathState.END_POINT)) {
                     mode = Mode.PATH_STOP;
                 } else {
-                    finalS = nextState.vel;
+                    finalS = nextStateS.vel;
+                    finalR = nextStateR.vel;
+                    finalL = nextStateL.vel;
                 }
                 break;
-            case PATH_STOP:
+            case PATH_STOP: //Runs once to stop the robot
                 finalS = 0;
+                finalR = 0;
+                finalL = 0;
                 mode = Mode.AUTO_IDLE;
                 break;
         }
