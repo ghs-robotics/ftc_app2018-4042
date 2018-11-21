@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class FakeDistanceSensor implements SensorInterface{
     private static final int SENSOR_HISTORY_SIZE = 1;
-    private Deque sensorHistory;
+    private Deque<Double> sensorHistory;
 
     @Override
     public void init() {
@@ -29,8 +29,8 @@ public class FakeDistanceSensor implements SensorInterface{
     @Override
     public double getCMValue() {
         double sum = 0;
-        for (Object x : sensorHistory) {
-            sum += (double) x;
+        for (Double x : sensorHistory) {
+            sum += x;
         }
         double mean = sum/sensorHistory.size();
 
