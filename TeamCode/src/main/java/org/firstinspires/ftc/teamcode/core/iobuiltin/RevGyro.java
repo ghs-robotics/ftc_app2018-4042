@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Axis;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 import org.firstinspires.ftc.teamcode.core.structure.SensorInterface;
+import org.firstinspires.ftc.teamcode.core.structure.Setting;
 
 public class RevGyro implements SensorInterface {
 
@@ -43,9 +44,18 @@ public class RevGyro implements SensorInterface {
      */
     private Axis primaryAxis;
 
-    public RevGyro(OpModeExtended context) {
+    public RevGyro(OpModeExtended context, Axis primaryAxis) {
         this.hardwareMap = context.hardwareMap;
         this.telemetry = context.telemetry;
+        this.primaryAxis = primaryAxis;
+    }
+
+    /**
+     * A constructor which defaults to the Z axis (heading) for the gyro
+     * @param context
+     */
+    public RevGyro(OpModeExtended context) {
+        this(context, Axis.Z);
     }
 
     @Override
@@ -101,14 +111,23 @@ public class RevGyro implements SensorInterface {
      */
     @Override
     public double getCMValue() {
-        double value = getRawValue();
-        while (value > 180) {
-            value -= 360;
+        return sum;
+    }
+
+    private double oldValue;
+    private double sum;
+
+    private double angleDiff(double angle1, double angle2) {
+        double diff = angle1 - angle2;
+        //Accounts for if you go from -180 degrees to 180 degrees
+        // which is only a difference of one degree,
+        // but the bot thinks that's 359 degree difference
+        if (diff < -180) {
+            diff += 180;
+        } else if (diff > 180) {
+            diff -= 180;
         }
-        while (value < -180) {
-            value += 360;
-        }
-        return value;
+        return diff;
     }
 
     /**
@@ -120,6 +139,10 @@ public class RevGyro implements SensorInterface {
         heading = angles.firstAngle + adjust;
         roll = angles.secondAngle + adjust;
         pitch = angles.thirdAngle + adjust;
+
+        double newValue = getRawValue();
+        sum += angleDiff(oldValue, newValue);
+        oldValue = newValue;
     }
 
     public double rawHeading() {
