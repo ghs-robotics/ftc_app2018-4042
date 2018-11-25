@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem;
-import org.firstinspires.ftc.teamcode.core.ClassHolder;
-import org.firstinspires.ftc.teamcode.core.GamepadExtended;
+import org.firstinspires.ftc.teamcode.core.structure.ClassHolder;
+import org.firstinspires.ftc.teamcode.core.iobuiltin.GamepadExtended;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
-import org.firstinspires.ftc.teamcode.core.Registry;
-import org.firstinspires.ftc.teamcode.core.Subsystem;
+import org.firstinspires.ftc.teamcode.core.structure.Registry;
+import org.firstinspires.ftc.teamcode.core.structure.Subsystem;
 
 @TeleOp(name = "Encoder Test", group = "tele")
 public class EncoderTest extends OpModeExtended {

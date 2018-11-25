@@ -4,15 +4,14 @@ import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.majora320.tealisp.evaluator.LispException;
+
+import java.io.File;
 import org.firstinspires.ftc.teamcode.core.iobuiltin.GamepadExtended;
-import org.firstinspires.ftc.teamcode.core.iobuiltin.LogRecorder;
 import org.firstinspires.ftc.teamcode.core.structure.ClassHolder;
 import org.firstinspires.ftc.teamcode.core.structure.Registry;
 import org.firstinspires.ftc.teamcode.core.tealisp.TealispFileManager;
 import org.firstinspires.ftc.teamcode.core.tealisp.TealispSubsystemInterface;
-import org.majora320.tealisp.evaluator.LispException;
-
-import java.io.File;
 
 import static org.apache.commons.lang3.exception.ExceptionUtils.getStackTrace;
 

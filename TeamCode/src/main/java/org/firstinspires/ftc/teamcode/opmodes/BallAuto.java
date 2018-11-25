@@ -3,9 +3,9 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem;
-import org.firstinspires.ftc.teamcode.core.ClassHolder;
+import org.firstinspires.ftc.teamcode.core.structure.ClassHolder;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
-import org.firstinspires.ftc.teamcode.core.Registry;
+import org.firstinspires.ftc.teamcode.core.structure.Registry;
 
 import java.io.File;
 

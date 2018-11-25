@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.balldrive;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
-import org.firstinspires.ftc.teamcode.core.Setting;
-import org.firstinspires.ftc.teamcode.core.Subsystem;
+import org.firstinspires.ftc.teamcode.core.structure.Setting;
+import org.firstinspires.ftc.teamcode.core.structure.Subsystem;
 import org.firstinspires.ftc.teamcode.core.path.PathData;
 import org.firstinspires.ftc.teamcode.core.path.PathFactory;
 import org.firstinspires.ftc.teamcode.core.path.PathState;
