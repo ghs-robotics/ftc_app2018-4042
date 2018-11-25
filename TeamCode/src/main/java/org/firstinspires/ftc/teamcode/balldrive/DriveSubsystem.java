@@ -68,10 +68,14 @@ public class DriveSubsystem extends Subsystem {
 
     private double startTime;
 
+    @Setting
+    public boolean encoderPrint;
+
     public DriveSubsystem(OpModeExtended context) {
         super(context);
         this.context = context;
         this.actuator = new DriveActuator(context);
+        this.encoderPrint = false;
     }
 
     public void init() {
@@ -85,6 +89,8 @@ public class DriveSubsystem extends Subsystem {
         finalS = 0;
 
         timer = new ElapsedTime();
+
+        actuator.init();
     }
 
     public void updateData() {
@@ -129,7 +135,6 @@ public class DriveSubsystem extends Subsystem {
                 pathR = factoryR.data;
 
                 mode = Mode.PATH;
-                context.telemetry.log().add("finalPos: " + sPathVars[2]);
                 break;
             case PATH: //Runs every loop cycle to execute the path
                 PathState nextStateS = pathS.getForTime(currTime() - startTime);
@@ -163,6 +168,10 @@ public class DriveSubsystem extends Subsystem {
             actuator.setVelocity(finalL, finalR, finalS);
         } else {
             actuator.setPower(finalL, finalR, finalS);
+        }
+
+        if (encoderPrint) {
+            actuator.printEncoders();
         }
     }
 

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.balldrive;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -14,7 +15,6 @@ public class DriveActuator {
 
     public DriveActuator(OpModeExtended context) {
         this.context = context;
-        init();
     }
 
     public void init() {
@@ -22,9 +22,21 @@ public class DriveActuator {
         motorR = (DcMotorEx) context.hardwareMap.dcMotor.get("motorRF");
         motorS = (DcMotorEx) context.hardwareMap.dcMotor.get("motorStrafe");
 
+        resetEncoders();
+
+        motorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorS.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         motorL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorR.setDirection(DcMotorSimple.Direction.FORWARD);
         motorS.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
+
+    private void resetEncoders() {
+        motorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorS.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public void setPower(double l, double r, double s) {
@@ -37,5 +49,11 @@ public class DriveActuator {
         motorL.setVelocity(l, AngleUnit.DEGREES);
         motorR.setVelocity(r, AngleUnit.DEGREES);
         motorS.setVelocity(s, AngleUnit.DEGREES);
+    }
+
+    public void printEncoders() {
+        context.telemetry.addData("l encoder", motorL.getCurrentPosition());
+        context.telemetry.addData("r encoder", motorR.getCurrentPosition());
+        context.telemetry.addData("s encoder", motorS.getCurrentPosition());
     }
 }
