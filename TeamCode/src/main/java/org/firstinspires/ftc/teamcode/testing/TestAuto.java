@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.core.Subsystem;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Map;
 
 @Autonomous(name = "Test", group = "Tests")
 public class TestAuto extends OpModeExtended {

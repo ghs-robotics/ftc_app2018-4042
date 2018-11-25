@@ -1,5 +1,6 @@
 dependencies {
     implementation project(path: ':FtcRobotController')
+    implementation project(':Tealisp')
 
     implementation(name: 'Analytics-release', ext: 'aar')
     implementation(name: 'WirelessP2p-release', ext: 'aar')
