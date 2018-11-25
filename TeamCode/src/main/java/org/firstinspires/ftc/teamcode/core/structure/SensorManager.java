@@ -1,4 +1,6 @@
-package org.firstinspires.ftc.teamcode.core;
+package org.firstinspires.ftc.teamcode.core.structure;
+
+import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 
 import java.util.ArrayList;
 
@@ -137,10 +139,11 @@ public class SensorManager {
 
 
     public double[][] initializeKalmanMatrices(SensorInterface sensor, double px, double py, double vx,
-                                            double vy, double r, double dt, double errorPx, double errorPy,
+                                            double vy, double θ, double r, double dt, double errorPx, double errorPy,
                                             double errorVx, double errorVy){
         double[][] previousPrediction = new double[][]{
-                { px, py, vx, vy }
+                { px, py, Math.sin(Math.toRadians(θ) - Math.atan(vx / vy)) * Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2)),
+                        Math.cos(Math.toRadians(θ) - Math.atan(vx / vy)) * Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2))}
         };
         double[][] transtionState = new double[][]{
                 { 1,  0, 0, 0 },
@@ -149,8 +152,10 @@ public class SensorManager {
                 { 0, dt, 0, 1 }
         };
         double[][] stateScalar = new double[][]{
-                { 1, 0, 0, 0 },
-                { 0, 1, 0, 0 }
+                { 1, 0 },
+                { 0, 1 },
+                { 0, 0 },
+                { 0, 0 }
         };
         double[][] predictedError = new double[][]{
                 { errorPx, 0, 0, 0 },
