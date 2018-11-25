@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.core.iobuiltin.RevGyro;
 import org.firstinspires.ftc.teamcode.core.structure.ClassHolder;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 import org.firstinspires.ftc.teamcode.core.structure.SensorManager;
@@ -8,9 +9,7 @@ import org.firstinspires.ftc.teamcode.core.structure.Subsystem;
 import org.majora320.tealisp.evaluator.JavaInterface;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class Holder extends ClassHolder {
     public Holder(OpModeExtended context) {
@@ -27,6 +26,8 @@ public class Holder extends ClassHolder {
 
     public Map<String, SensorManager> getSensors() {
         Map<String, SensorManager> result = new HashMap<>();
+
+        result.put("gyro", new SensorManager(context, new RevGyro(context)));
 
         return result;
     }
