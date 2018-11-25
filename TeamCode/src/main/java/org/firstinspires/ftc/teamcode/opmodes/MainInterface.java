@@ -102,7 +102,7 @@ public class MainInterface extends JavaInterface {
      * @return Six zeros as a double array
      */
     private double[] zero() {
-        return new double[]{0, 0, 0, 0, 0, 0, 0};
+        return new double[]{0, 0, 0, 0, 1000, 100, 0.1};
     }
 
     private LispObject logFun(LispObject[] params) throws LispException {
