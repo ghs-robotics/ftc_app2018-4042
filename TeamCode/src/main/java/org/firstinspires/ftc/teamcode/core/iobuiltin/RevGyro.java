@@ -106,6 +106,22 @@ public class RevGyro implements SensorInterface {
     }
 
     /**
+     * Gets the last recorded value from the gyro in one of its axes
+     * @return The angle around the preferred axis, unbounded
+     */
+    public double getRawValueNoUpdate() {
+        switch (primaryAxis) {
+            case X:
+                return getRoll();
+            case Y:
+                return getPitch();
+            case Z:
+                return getHeading();
+        }
+        return -1;
+    }
+
+    /**
      * Brings the gyro value between -180 and 180
      * @return Angle around the preferred axis, in (-180, 180]
      */
@@ -122,11 +138,12 @@ public class RevGyro implements SensorInterface {
         //Accounts for if you go from -180 degrees to 180 degrees
         // which is only a difference of one degree,
         // but the bot thinks that's 359 degree difference
-        if (diff < -180) {
+        while (diff < -90) {
             diff += 180;
-        } else if (diff > 180) {
+        } while (diff > 90) {
             diff -= 180;
         }
+        telemetry.addData("diff", diff);
         return diff;
     }
 
@@ -140,8 +157,9 @@ public class RevGyro implements SensorInterface {
         roll = angles.secondAngle + adjust;
         pitch = angles.thirdAngle + adjust;
 
-        double newValue = getRawValue();
+        double newValue = getRawValueNoUpdate();
         sum += angleDiff(oldValue, newValue);
+        telemetry.addData("sum", sum);
         oldValue = newValue;
     }
 
