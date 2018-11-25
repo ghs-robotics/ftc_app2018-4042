@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.testing;
-import org.firstinspires.ftc.teamcode.core.ClassHolder;
+import org.firstinspires.ftc.teamcode.core.structure.ClassHolder;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
-import org.firstinspires.ftc.teamcode.core.SensorManager;
-import org.firstinspires.ftc.teamcode.core.Subsystem;
+import org.firstinspires.ftc.teamcode.core.structure.SensorManager;
+import org.firstinspires.ftc.teamcode.core.structure.Subsystem;
 
 import org.firstinspires.ftc.teamcode.core.tealisp.TealispSensorInterface;
 import org.firstinspires.ftc.teamcode.core.tealisp.TealispSubsystemInterface;
