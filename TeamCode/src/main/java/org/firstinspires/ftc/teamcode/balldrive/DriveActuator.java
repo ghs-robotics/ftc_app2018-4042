@@ -28,8 +28,8 @@ public class DriveActuator {
         motorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorS.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        motorL.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorR.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorL.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorR.setDirection(DcMotorSimple.Direction.REVERSE);
         motorS.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 

@@ -101,9 +101,7 @@ public class DriveSubsystem extends Subsystem {
                 finalS = manualS;
                 break;
             case MANUAL_XYR:
-                finalL = manualY + manualR;
-                finalR = manualY - manualR;
-                finalS = manualX;
+                lrsFromXYR(manualX, manualY, manualR);
                 break;
             case AUTO_LRS_INIT:
                 timer.reset();
@@ -144,9 +142,14 @@ public class DriveSubsystem extends Subsystem {
                 if (nextStateS.equals(PathState.END_POINT) && nextStateL.equals(PathState.END_POINT) && nextStateR.equals(PathState.END_POINT)) {
                     mode = Mode.PATH_STOP;
                 } else {
-                    finalS = nextStateS.vel;
+                    context.telemetry.addData("l input", nextStateL.vel);
+                    context.telemetry.addData("r input", nextStateR.vel);
+                    context.telemetry.addData("s input", nextStateS.vel);
+
+                    lrsFromXYR(nextStateL.vel, nextStateR.vel, nextStateS.vel);
+                    /*finalS = nextStateS.vel;
                     finalR = nextStateR.vel;
-                    finalL = nextStateL.vel;
+                    finalL = nextStateL.vel;*/
                 }
                 break;
             case PATH_STOP: //Runs once to stop the robot
@@ -156,6 +159,12 @@ public class DriveSubsystem extends Subsystem {
                 mode = Mode.AUTO_IDLE;
                 break;
         }
+    }
+
+    private void lrsFromXYR(double x, double y, double r) {
+        finalL = y + r;
+        finalR = y - r;
+        finalS = x;
     }
 
     public void updateActuators() {
