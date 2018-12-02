@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.core.structure.Subsystem;
 public class LiftSubsystem extends Subsystem {
 
     private OpModeExtended context;
-    public LiftActuator actuator;
+    private LiftActuator actuator;
 
     private ElapsedTime releaseTimer;
     private ElapsedTime powerTimer;
@@ -25,6 +25,9 @@ public class LiftSubsystem extends Subsystem {
     @Setting
     public double powerTime;
 
+    @Setting
+    public boolean toggle;
+
     public LiftSubsystem(OpModeExtended context) {
         super(context);
         this.context = context;
@@ -38,6 +41,7 @@ public class LiftSubsystem extends Subsystem {
         releaseMode = ReleaseStage.CLOSED;
         power = 0;
         powerTime = 0;
+        toggle = false;
         releaseTimer = new ElapsedTime();
         powerTimer = new ElapsedTime();
     }
@@ -50,12 +54,14 @@ public class LiftSubsystem extends Subsystem {
                 actuator.setLift(1);
                 releaseTimer.reset();
                 releaseMode = ReleaseStage.OPENING;
+                break;
             case OPENING: //When enough time has passed, open the servo
                 if (releaseTimer.seconds() > 1) { //TODO: TUNE THIS
                     actuator.setLift(0);
                     releaseMode = ReleaseStage.OPEN;
                     powerTimer.reset();
                 }
+                break;
             case OPEN: //If the servo's open, then:
                 if (powerTime != 0) { //If the lift is meant to be run with a timer
                     if (powerTimer.seconds() < powerTime) { //Run if the time is less than the target
@@ -67,6 +73,12 @@ public class LiftSubsystem extends Subsystem {
                 } else { //Otherwise, just set the power to what it should be
                     actuator.setLift(power);
                 }
+
+                if (toggle) {
+                    actuator.toggle();
+                    toggle = false;
+                }
+                break;
         }
     }
 

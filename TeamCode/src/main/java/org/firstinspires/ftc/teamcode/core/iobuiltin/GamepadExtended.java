@@ -15,6 +15,8 @@ public class GamepadExtended {
     public float right_stick_x, right_stick_y;
     public float left_trigger, right_trigger;
 
+    public final static double DEADZONE = .05;
+
     public enum ButtonState {
         UP, DOWN, UPPING, DOWNING
     }
