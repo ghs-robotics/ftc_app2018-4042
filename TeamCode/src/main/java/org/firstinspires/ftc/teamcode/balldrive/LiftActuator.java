@@ -31,7 +31,7 @@ public class LiftActuator {
 
         pawl = context.hardwareMap.servo.get("pawl");
         pawl.setDirection(Servo.Direction.FORWARD);
-        open(); //TODO: CHANGE THIS BACK!
+        close(); //TODO: CHANGE THIS BACK!
     }
 
     public void open() {

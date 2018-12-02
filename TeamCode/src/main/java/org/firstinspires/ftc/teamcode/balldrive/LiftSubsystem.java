@@ -56,7 +56,7 @@ public class LiftSubsystem extends Subsystem {
                 releaseMode = ReleaseStage.OPENING;
                 break;
             case OPENING: //When enough time has passed, open the servo
-                if (releaseTimer.seconds() > 1) { //TODO: TUNE THIS
+                if (releaseTimer.seconds() > .1) { //TODO: TUNE THIS
                     actuator.setLift(0);
                     releaseMode = ReleaseStage.OPEN;
                     powerTimer.reset();
