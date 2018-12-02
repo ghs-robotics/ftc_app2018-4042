@@ -14,9 +14,8 @@ public class LiftActuator {
 
     private OpModeExtended context;
 
-    //TODO: TUNE THESE
-    private static final double OPEN = 0;
-    private static final double CLOSED = 1;
+    private static final double OPEN = 0.7;
+    private static final double CLOSED = 0.81;
 
     public LiftActuator(OpModeExtended context) {
         this.context = context;

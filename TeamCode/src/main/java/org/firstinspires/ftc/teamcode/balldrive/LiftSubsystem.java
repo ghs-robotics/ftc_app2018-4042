@@ -46,13 +46,13 @@ public class LiftSubsystem extends Subsystem {
     public void updateActuators() {
         switch (releaseMode) {
             case SLIDE_OPEN: //Start sliding open by moving the motor
+                actuator.open();
                 actuator.setLift(1);
                 releaseTimer.reset();
                 releaseMode = ReleaseStage.OPENING;
             case OPENING: //When enough time has passed, open the servo
                 if (releaseTimer.seconds() > 1) { //TODO: TUNE THIS
                     actuator.setLift(0);
-                    actuator.open();
                     releaseMode = ReleaseStage.OPEN;
                     powerTimer.reset();
                 }
