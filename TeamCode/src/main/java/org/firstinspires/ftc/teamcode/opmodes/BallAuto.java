@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.balldrive.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.core.structure.ClassHolder;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
 import org.firstinspires.ftc.teamcode.core.structure.Registry;
@@ -22,13 +23,18 @@ public class BallAuto extends OpModeExtended {
 
     public class AICM extends OpModeExtended.AutoInputControlManager {
         DriveSubsystem drive;
+        LiftSubsystem lift;
 
         @Override
         public void autoinit() {
             teaLispFile = new File("./storage/emulated/0/bluetooth/one-motion.tl");
             drive = (DriveSubsystem) Registry.getSubsystemByName("driveSubsystem");
             drive.setting("mode", DriveSubsystem.Mode.AUTO_IDLE);
-            ((MainInterface) Registry.getInterfaceByName("main")).setDrive(drive);
+            lift = (LiftSubsystem) Registry.getSubsystemByName("liftSubsystem");
+
+            MainInterface inter = (MainInterface) Registry.getInterfaceByName("main");
+            inter.setDrive(drive);
+            inter.setLift(lift);
         }
 
         @Override

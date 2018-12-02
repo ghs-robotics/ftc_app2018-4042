@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.balldrive.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.core.iobuiltin.RevGyro;
 import org.firstinspires.ftc.teamcode.core.structure.ClassHolder;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
@@ -20,6 +21,7 @@ public class Holder extends ClassHolder {
         Map<String, Subsystem> result = new HashMap<>();
 
         result.put("driveSubsystem", new DriveSubsystem(context));
+        result.put("liftSubsystem", new LiftSubsystem(context));
 
         return result;
     }
