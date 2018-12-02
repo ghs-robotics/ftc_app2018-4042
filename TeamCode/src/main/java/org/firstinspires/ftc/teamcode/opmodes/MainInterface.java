@@ -61,7 +61,7 @@ public class MainInterface extends JavaInterface {
         lift.setting("releaseMode", LiftSubsystem.ReleaseStage.SLIDE_OPEN);
         lift.setting("power", -1);
         lift.setting("powerTime", 1);
-        return new LispObject.Void();
+        return new LispObject.Boolean(true);
     }
 
     /**

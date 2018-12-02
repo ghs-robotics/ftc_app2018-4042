@@ -14,6 +14,7 @@ public class LiftActuator {
 
     private OpModeExtended context;
 
+    //TODO: TUNE THESE
     private static final double OPEN = 0;
     private static final double CLOSED = 1;
 
@@ -33,14 +34,18 @@ public class LiftActuator {
     }
 
     public void open() {
-        pawl.setPosition(OPEN);
+        setPawl(OPEN);
     }
 
     public void closed() {
-        pawl.setPosition(CLOSED);
+        setPawl(CLOSED);
     }
 
     public void setLift(double power) {
         lift.setPower(power);
+    }
+
+    public void setPawl(double pos) {
+        pawl.setPosition(pos);
     }
 }

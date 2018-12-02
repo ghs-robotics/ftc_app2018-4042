@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.core.structure.Subsystem;
 public class LiftSubsystem extends Subsystem {
 
     private OpModeExtended context;
-    private LiftActuator actuator;
+    public LiftActuator actuator;
 
     private ElapsedTime releaseTimer;
     private ElapsedTime powerTimer;
@@ -50,7 +50,7 @@ public class LiftSubsystem extends Subsystem {
                 releaseTimer.reset();
                 releaseMode = ReleaseStage.OPENING;
             case OPENING: //When enough time has passed, open the servo
-                if (releaseTimer.seconds() > 1) {
+                if (releaseTimer.seconds() > 1) { //TODO: TUNE THIS
                     actuator.setLift(0);
                     actuator.open();
                     releaseMode = ReleaseStage.OPEN;

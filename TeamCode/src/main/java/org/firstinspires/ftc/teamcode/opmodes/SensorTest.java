@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.balldrive.LiftSubsystem;
 import org.firstinspires.ftc.teamcode.core.iobuiltin.GamepadExtended;
 import org.firstinspires.ftc.teamcode.core.structure.ClassHolder;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
@@ -23,9 +24,14 @@ public class SensorTest extends OpModeExtended {
 
     public class TICM extends OpModeExtended.TeleInputControlManager {
         Subsystem drive;
+        LiftSubsystem lift;
         SensorManager gyro;
+        double servoLoc;
+
         public void teleinit() {
             drive = Registry.getSubsystemByName("driveSubsystem");
+            lift = (LiftSubsystem) Registry.getSubsystemByName("liftSubsystem");
+            servoLoc = 0;
             gyro = Registry.getSensorManagerByName("gyro");
 
             drive.setting("mode", DriveSubsystem.Mode.MANUAL_LRS);
@@ -41,6 +47,14 @@ public class SensorTest extends OpModeExtended {
                 drive.setting("manualL", 0);
                 drive.setting("manualR", 0);
                 drive.setting("manualS", 0);
+            }
+
+            if (gamepadExtended1.dpad_up.equals(GamepadExtended.ButtonState.DOWNING)) {
+                servoLoc += .1;
+                lift.actuator.setPawl(servoLoc);
+            } else if (gamepadExtended1.dpad_down.equals(GamepadExtended.ButtonState.DOWNING)) {
+                servoLoc -= .1;
+                lift.actuator.setPawl(servoLoc);
             }
 
             telemetry.addData("gyro heading", gyro.getLastNValues(1)[0]);
