@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import android.util.Log;
 
 import org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.balldrive.LiftSubsystem;
 import org.majora320.tealisp.evaluator.JavaInterface;
 import org.majora320.tealisp.evaluator.LispException;
 import org.majora320.tealisp.evaluator.LispObject;
@@ -16,13 +17,18 @@ public class MainInterface extends JavaInterface {
     @Override
     public boolean isSupportedFunction(String function) {
         //Log.i("team-code", "Function: " + function);
-        return "drive".equals(function) || "log".equals(function) || "path".equals(function);
+        return "drive".equals(function) || "log".equals(function) || "path".equals(function) || "drop".equals(function);
     }
 
     private DriveSubsystem drive;
+    private LiftSubsystem lift;
 
     public void setDrive(DriveSubsystem drive) {
         this.drive = drive;
+    }
+
+    public void setLift(LiftSubsystem lift) {
+        this.lift = lift;
     }
 
     /**
@@ -43,9 +49,19 @@ public class MainInterface extends JavaInterface {
                 return logFun(params);
             case "path":
                 return pathFun(params);
+            case "drop":
+                return dropFun(params);
             default:
                 return null;
         }
+    }
+
+    private LispObject dropFun(LispObject[] params) throws LispException {
+        //checkParams("drop", params, new Class[] {}, false);
+        lift.setting("releaseMode", LiftSubsystem.ReleaseStage.SLIDE_OPEN);
+        lift.setting("power", -1);
+        lift.setting("powerTime", 1);
+        return new LispObject.Boolean(true);
     }
 
     /**
