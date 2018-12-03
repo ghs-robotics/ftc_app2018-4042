@@ -73,14 +73,14 @@ public class BallTeleOp extends OpModeExtended {
         private void drive() {
             switch ((DriveSubsystem.Mode) drive.getSetting("mode")) {
                 case MANUAL_LRS:
-                    drive.setting("manualL", gamepadExtended1.left_stick_y);
-                    drive.setting("manualR", gamepadExtended1.right_stick_y);
+                    drive.setting("manualL", -gamepadExtended1.left_stick_y);
+                    drive.setting("manualR", -gamepadExtended1.right_stick_y);
                     drive.setting("manualS", (gamepadExtended1.left_stick_x + gamepadExtended1.right_stick_x) / 2);
                     break;
                 case MANUAL_XYR:
                     drive.setting("manualX", gamepadExtended1.left_stick_x);
-                    drive.setting("manualY", gamepadExtended1.left_stick_y);
-                    drive.setting("manualR", gamepadExtended1.right_stick_x);
+                    drive.setting("manualY", -gamepadExtended1.left_stick_y);
+                    drive.setting("manualR", -gamepadExtended1.right_stick_x);
                     break;
             }
         }

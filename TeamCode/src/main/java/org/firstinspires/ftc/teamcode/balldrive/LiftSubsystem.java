@@ -14,6 +14,7 @@ public class LiftSubsystem extends Subsystem {
     private ElapsedTime releaseTimer;
     private ElapsedTime powerTimer;
 
+    //TODO: ADD THE CLOSING PART, POSSIBLY? Depends on driver skill
     public enum ReleaseStage { CLOSED, SLIDE_OPEN, OPENING, OPEN }
 
     @Setting
