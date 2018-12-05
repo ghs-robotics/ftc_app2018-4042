@@ -138,12 +138,20 @@ public class SensorManager {
 
 
 
-    public double[][] initializeKalmanMatrices(SensorInterface sensor, double px, double py, double vx,
-                                            double vy, double θ, double r, double dt, double errorPx, double errorPy,
-                                            double errorVx, double errorVy){
+    double px;
+    double py;
+    double vx;
+    double vy;
+    double theta;
+    double r;
+    double dt;
+    double errorPx;
+    double errorPy;
+    double errorVx;
+    double errorVy;
         double[][] previousPrediction = new double[][]{
-                { px, py, Math.sin(Math.toRadians(θ) - Math.atan(vx / vy)) * Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2)),
-                        Math.cos(Math.toRadians(θ) - Math.atan(vx / vy)) * Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2))}
+                { px, py, Math.sin(Math.toRadians(theta) - Math.atan(vx / vy)) * Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2)),
+                        Math.cos(Math.toRadians(theta) - Math.atan(vx / vy)) * Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2))}
         };
         double[][] transtionState = new double[][]{
                 { 1,  0, 0, 0 },
@@ -159,7 +167,7 @@ public class SensorManager {
         };
         double[][] predictedError = new double[][]{
                 { errorPx, 0, 0, 0 },
-                { 0, 0, errorPy, dt },
+                { 0, errorPy, 0 },
                 { 0, 0, errorVx, 0  },
                 { 0, 0, 0, errorVy  }
         };
@@ -172,8 +180,7 @@ public class SensorManager {
                 {1, 0},
                 {0, 1}
         };
-        return identityMatrix;
-    }
+
 
      public double[][] predictState(double[][] transitionState,
                                     double[][] previousPrediction){
@@ -208,22 +215,22 @@ public class SensorManager {
                 multiplyMatrix(stateScalar, previousPrediction))));
     }
 
-    public ArrayList<double[][]> runKalmanFilter(ArrayList<double[][]> previousKalmanStateAndError,
+    public double[][][] runKalmanFilter(double[][][] previousKalmanStateAndError,
                                                  double[][] transitionState,
                                                  double[][] stateScalar,
                                                  double[][] measurementCovariance,
                                                  double[][] identityMatrix,
                                                  double[][] measuredMatrix){
-        double[][] previousPrediction = previousKalmanStateAndError.get(0);
-        double[][] previousError = previousKalmanStateAndError.get(1);
+        double[][] previousPrediction = previousKalmanStateAndError[0];
+        double[][] previousError = previousKalmanStateAndError[1];
         double[][] currentState = predictState(transitionState, previousPrediction);
         double[][] currentError = predictError(previousError, transitionState);
         double[][] currentGain = updateGain(currentError, stateScalar, measurementCovariance);
         currentError = updateError(identityMatrix, currentError, stateScalar, currentGain);
         currentState = updatePrediction(previousPrediction, currentGain, measuredMatrix, stateScalar);
-        ArrayList<double[][]> kalmanStateAndError = new ArrayList<>();
-        kalmanStateAndError.add(0, currentError);
-        kalmanStateAndError.add(1, currentState);
+        double[][][] kalmanStateAndError =  new double[][][]{};
+        kalmanStateAndError[0] = currentError;
+        kalmanStateAndError[1] = currentState;
         return kalmanStateAndError;
     }
 
