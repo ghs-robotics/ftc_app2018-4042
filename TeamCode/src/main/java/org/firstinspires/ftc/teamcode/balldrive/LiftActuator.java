@@ -17,6 +17,8 @@ public class LiftActuator {
     private static final double OPEN = 0.7;
     private static final double CLOSED = 0.81;
 
+    private double state;
+
     public LiftActuator(OpModeExtended context) {
         this.context = context;
     }
@@ -29,15 +31,25 @@ public class LiftActuator {
 
         pawl = context.hardwareMap.servo.get("pawl");
         pawl.setDirection(Servo.Direction.FORWARD);
-        pawl.setPosition(CLOSED);
+        close(); //TODO: CHANGE THIS BACK!
     }
 
     public void open() {
         setPawl(OPEN);
+        state = OPEN;
     }
 
-    public void closed() {
+    public void close() {
         setPawl(CLOSED);
+        state = CLOSED;
+    }
+
+    public void toggle() {
+        if (state == OPEN) {
+            close();
+        } else if (state == CLOSED) {
+            open();
+        }
     }
 
     public void setLift(double power) {
