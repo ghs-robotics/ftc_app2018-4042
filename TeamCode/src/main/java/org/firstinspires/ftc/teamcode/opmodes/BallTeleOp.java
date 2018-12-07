@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.balldrive.LiftSubsystem;
@@ -29,7 +28,7 @@ public class BallTeleOp extends OpModeExtended {
             lift = Registry.getSubsystemByName("liftSubsystem");
 
             drive.setting("mode", DriveSubsystem.Mode.MANUAL_LRS);
-            lift.setting("releaseMode", LiftSubsystem.ReleaseStage.OPEN);
+            lift.setting("releaseMode", LiftSubsystem.ReleaseStage.LOWER);
             lift.setting("powerTime", 0);
             lift.setting("power", 0);
         }
