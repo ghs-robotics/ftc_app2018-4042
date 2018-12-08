@@ -105,8 +105,8 @@ public class SensorTest extends OpModeExtended {
             telemetry.addData("servo", servoLoc);
 
             measuredMatrix = new double [][]{
-                {ultrasonic.getCM() /*x direction*/, ultrasonic.getCM(), /*y direction*/vy, /*x direction motor velocity*/vx,
-                        /*x direction motor velocity*/}
+                {ultrasonic.getCM() /*x direction*/, ultrasonic.getCM() /*y direction*/, /*x direction motor velocity*/vx,
+                        vy /*y direction motor velocity*/}
             };
             double[][][] KalmanStateAndError =  ultrasonic.runKalmanFilter(previousKalmanStateAndError, transtionState,
                     stateScalar, measurementCovariance, identityMatrix, measuredMatrix);
