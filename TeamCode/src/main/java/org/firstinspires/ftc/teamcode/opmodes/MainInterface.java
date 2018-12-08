@@ -10,6 +10,8 @@ import org.majora320.tealisp.evaluator.LispObject;
 import org.majora320.tealisp.evaluator.LispObject.Number;
 import org.majora320.tealisp.evaluator.StackFrame;
 
+import org.firstinspires.ftc.teamcode.balldrive.LiftSubsystem.ReleaseStage;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
@@ -58,10 +60,15 @@ public class MainInterface extends JavaInterface {
 
     private LispObject dropFun(LispObject[] params) throws LispException {
         //checkParams("drop", params, new Class[] {}, false);
-        lift.setting("releaseMode", LiftSubsystem.ReleaseStage.SLIDE_OPEN);
-        lift.setting("power", -1);
-        lift.setting("powerTime", 1);
-        return new LispObject.Boolean(true);
+        ReleaseStage currMode = (ReleaseStage) lift.getSetting("releaseMode");
+        if (currMode.equals(ReleaseStage.CLOSED)) {
+            lift.setting("releaseMode", ReleaseStage.SLIDE_OPEN);
+            lift.setting("power", -1);
+            lift.setting("powerTime", 1);
+        } else if (currMode.equals(ReleaseStage.OPEN)) {
+            return new LispObject.Boolean(true);
+        }
+        return new LispObject.Boolean(false);
     }
 
     /**

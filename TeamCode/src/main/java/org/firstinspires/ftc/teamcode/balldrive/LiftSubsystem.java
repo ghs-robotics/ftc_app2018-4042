@@ -15,7 +15,8 @@ public class LiftSubsystem extends Subsystem {
     private ElapsedTime powerTimer;
 
     //TODO: ADD THE CLOSING PART, POSSIBLY? Depends on driver skill
-    public enum ReleaseStage { CLOSED, SLIDE_OPEN, OPENING, OPEN }
+    public enum ReleaseStage { CLOSED, SLIDE_OPEN, OPENING, LOWER, OPEN
+    }
 
     @Setting
     public ReleaseStage releaseMode;
@@ -59,11 +60,11 @@ public class LiftSubsystem extends Subsystem {
             case OPENING: //When enough time has passed, open the servo
                 if (releaseTimer.seconds() > .1) { //TODO: TUNE THIS
                     actuator.setLift(0);
-                    releaseMode = ReleaseStage.OPEN;
+                    releaseMode = ReleaseStage.LOWER;
                     powerTimer.reset();
                 }
                 break;
-            case OPEN: //If the servo's open, then:
+            case LOWER: //If the servo's open, then:
                 if (powerTime != 0) { //If the lift is meant to be run with a timer
                     if (powerTimer.seconds() < powerTime) { //Run if the time is less than the target
                         actuator.setLift(power);
@@ -71,10 +72,12 @@ public class LiftSubsystem extends Subsystem {
                         powerTime = 0;
                         power = 0;
                     }
-                } else { //Otherwise, just set the power to what it should be
-                    actuator.setLift(power);
+                } else {
+                    releaseMode = ReleaseStage.OPEN;
                 }
-
+                break;
+            case OPEN: //Set the power to what it should be
+                actuator.setLift(power);
                 if (toggle) {
                     actuator.toggle();
                     toggle = false;
