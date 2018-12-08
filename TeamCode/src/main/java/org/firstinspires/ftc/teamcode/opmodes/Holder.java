@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import org.firstinspires.ftc.teamcode.balldrive.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.balldrive.LiftSubsystem;
+import org.firstinspires.ftc.teamcode.core.iobuiltin.KalmanTestUltra;
 import org.firstinspires.ftc.teamcode.core.iobuiltin.RevGyro;
 import org.firstinspires.ftc.teamcode.core.structure.ClassHolder;
 import org.firstinspires.ftc.teamcode.core.OpModeExtended;
@@ -30,6 +31,7 @@ public class Holder extends ClassHolder {
         Map<String, SensorManager> result = new HashMap<>();
 
         result.put("gyro", new SensorManager(context, new RevGyro(context)));
+        result.put("ultrasonix", new SensorManager(context, new KalmanTestUltra(context)));
 
         return result;
     }

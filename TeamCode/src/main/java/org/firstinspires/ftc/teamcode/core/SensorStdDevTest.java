@@ -19,25 +19,32 @@ public class SensorStdDevTest extends OpMode {
 
      @Override
      public void init() {
+         voltageList = new ArrayList<Double>();
          ultrasonic = hardwareMap.analogInput.get("AARON\'S A BITCH");
          voltageList.ensureCapacity(NUM_VOLTAGES);
      }
      @Override
      public void loop() {
          sum = 0;
-         voltageList.add(ultrasonic.getVoltage());
-         if(voltageList.size() > NUM_VOLTAGES)
+         double currentVoltage = ultrasonic.getVoltage();
+         if(voltageList.size() >= NUM_VOLTAGES){
              voltageList.remove(0);
-
+         }
+         voltageList.add(currentVoltage);
          for(double voltage : voltageList){
              sum += voltage;
          }
          mean = sum / voltageList.size();
+         sum = 0;
          for(double voltage : voltageList){
              sum += Math.pow((voltage - mean), 2);
          }
          stdDev = Math.sqrt(sum/(voltageList.size()-1));
-         telemetry.addData("hi brendan", stdDev);
+
+         telemetry.addData("stdDev", stdDev);
+         telemetry.addData("Voltage", currentVoltage);
+         telemetry.addData("Length", voltageList.size());
+         telemetry.addData("Mean", mean);
          telemetry.update();
      }
 }

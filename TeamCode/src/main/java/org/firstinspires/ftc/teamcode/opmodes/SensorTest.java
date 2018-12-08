@@ -12,6 +12,8 @@ import org.firstinspires.ftc.teamcode.core.structure.Registry;
 import org.firstinspires.ftc.teamcode.core.structure.SensorManager;
 import org.firstinspires.ftc.teamcode.core.structure.Subsystem;
 
+import java.util.ArrayList;
+
 @TeleOp(name = "Sensor Test", group = "tele")
 public class SensorTest extends OpModeExtended {
 
@@ -27,12 +29,61 @@ public class SensorTest extends OpModeExtended {
         Subsystem drive;
         Servo servo;
         DcMotorEx motor;
-        SensorManager gyro;
+        SensorManager gyro, ultrasonic;
+        double[][] measuredMatrix = new double[][]{};
         double servoLoc;
+        double px;
+        double py;
+        double vx;
+        double vy;
+        double theta;
+        double r;
+        double dt;
+        double errorPx;
+        double errorPy;
+        double errorVx;
+        double errorVy;
+        double[][] previousPrediction = new double[][]{
+                { px, py, 0, 0 }
+        };
+
+        double[][] predictedError = new double[][]{
+                { 0, 0, 0, 0 },
+                { 0, 0, 0, 0 },
+                { 0, 0, 0, 0 },
+                { 0, 0, 0, 0 }
+        };
+
+        double[][] transtionState = new double[][]{
+                { 1,  0, 0, 0 },
+                { 0,  1, 0, 0 },
+                { dt, 0, 1, 0 },
+                { 0, dt, 0, 1 }
+        };
+
+        double[][][] previousKalmanStateAndError = new double[][][]{predictedError, previousPrediction};
+
+        double[][] stateScalar = new double[][]{
+                { 1, 0 },
+                { 0, 1 },
+                { 0, 0 },
+                { 0, 0 }
+        };
+
+        double[][] measurementCovariance = new double[][]{
+                { r, 0},
+                { 0, r}
+        };
+
+        double[][] identityMatrix = new double[][]{
+                {1, 0},
+                {0, 1}
+        };
 
         public void teleinit() {
             drive = Registry.getSubsystemByName("driveSubsystem");
             gyro = Registry.getSensorManagerByName("gyro");
+            ultrasonic = Registry.getSensorManagerByName("ultrasonix");
 
             servo = drive.context.hardwareMap.servo.get("pawl");
             servoLoc = 0;
@@ -41,6 +92,7 @@ public class SensorTest extends OpModeExtended {
 
             drive.setting("mode", DriveSubsystem.Mode.MANUAL_LRS);
             drive.setting("encoderPrint", true);
+
         }
         public void teleupdate() {
             telemetry.addData("A", "Encoders");
@@ -51,6 +103,16 @@ public class SensorTest extends OpModeExtended {
 
             telemetry.addData("gyro heading", gyro.getLastNValues(1)[0]);
             telemetry.addData("servo", servoLoc);
+
+            measuredMatrix = new double [][]{
+                {ultrasonic.getCM() /*x direction*/, ultrasonic.getCM(), /*y direction*/vy, /*x direction motor velocity*/vx,
+                        /*x direction motor velocity*/}
+            };
+            double[][][] KalmanStateAndError =  ultrasonic.runKalmanFilter(previousKalmanStateAndError, transtionState,
+                    stateScalar, measurementCovariance, identityMatrix, measuredMatrix);
+            telemetry.addData("State and Error", KalmanStateAndError);
+
+
         }
 
         private void runDrive() {
